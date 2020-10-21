@@ -147,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				BDAC54132524178500BBD68D /* WeatherWidget.swift */,
-				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
 				BDAC54242524180A00BBD68D /* WidgetView.swift */,
+				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
 				BDAC54152524178500BBD68D /* WeatherWidget.intentdefinition */,
 				BDAC54162524178A00BBD68D /* Assets.xcassets */,
 				BDAC54182524178A00BBD68D /* Info.plist */,

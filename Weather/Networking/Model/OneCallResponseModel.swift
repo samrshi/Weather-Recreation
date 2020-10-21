@@ -29,12 +29,18 @@ extension OneCallResponse {
     return formatter.string(from: date)
   }
   
-  var filteredHourly: [GeneralResponse] {
-    return hourly.filter { hour in
+  func filteredHourly(max: Int?) -> [GeneralResponse] {
+    var filtered = hourly.filter { hour in
       let date = Date(timeIntervalSince1970: TimeInterval(hour.dt))
       let endDate = Date(timeIntervalSinceNow: 60*60*24)
       return date <= endDate
     }
+    
+    if let max = max {
+      filtered.removeFirst()
+      return Array(filtered.prefix(max))
+    }
+    return filtered
   }
   
   var filteredDaily: [DailyResponse] {

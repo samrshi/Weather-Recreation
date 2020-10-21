@@ -22,14 +22,13 @@ struct Provider: IntentTimelineProvider {
   var widgetLocationManager = WidgetLocationManager()
   
   func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    
     let currentDate = Date()
     let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
     let currentLocation = readContents().current
     
     let latitude = currentLocation.lat
     let longitude = currentLocation.lon
-            
+    
     API.fetch(
       type: OneCallResponse.self,
       urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
@@ -37,7 +36,7 @@ struct Provider: IntentTimelineProvider {
     ) { result in
       let weatherInfo: OneCallResponse
       var name = "Nothing"
-      
+    
       if case .success(let fetchedData) = result {
         name = currentLocation.name
         weatherInfo = fetchedData
@@ -46,12 +45,11 @@ struct Provider: IntentTimelineProvider {
         let errWeather = OneCallResponse.blankInit()
         weatherInfo = errWeather
       }
-      
+    
       let entry = SimpleEntry(date: currentDate, locationName: name, weather: weatherInfo)
       let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
       completion(timeline)
     }
-    
   }
   
   func readContents() -> Locations {
@@ -96,3 +94,32 @@ struct WeatherWidget: Widget {
     .description("This is an example widget.")
   }
 }
+
+//let currentDate = Date()
+//let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
+//let currentLocation = readContents().current
+//
+//let latitude = currentLocation.lat
+//let longitude = currentLocation.lon
+//
+//API.fetch(
+//  type: OneCallResponse.self,
+//  urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
+//  decodingStrategy: .convertFromSnakeCase
+//) { result in
+//  let weatherInfo: OneCallResponse
+//  var name = "Nothing"
+//
+//  if case .success(let fetchedData) = result {
+//    name = currentLocation.name
+//    weatherInfo = fetchedData
+//  } else {
+//    name = "Error"
+//    let errWeather = OneCallResponse.blankInit()
+//    weatherInfo = errWeather
+//  }
+//
+//  let entry = SimpleEntry(date: currentDate, locationName: name, weather: weatherInfo)
+//  let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
+//  completion(timeline)
+//}

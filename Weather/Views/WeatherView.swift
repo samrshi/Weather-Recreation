@@ -29,8 +29,10 @@ struct WeatherView: View {
         
         Divider()
         
-        HourlyView()
-          .padding(.leading)
+        ScrollView(.horizontal, showsIndicators: false) {
+          HourlyView(weather: weather.response, max: nil)
+            .padding(.leading)
+        }
         
         Divider()
         

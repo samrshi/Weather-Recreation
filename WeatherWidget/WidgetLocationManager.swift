@@ -9,8 +9,13 @@ import Foundation
 import CoreLocation
 
 class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
+  
+  static var shared = WidgetLocationManager()
+  
   var locationManager: CLLocationManager?
   private var handler: ((CLLocation) -> Void)?
+  
+  @Published var locationString = "None"
   
   override init() {
     super.init()
