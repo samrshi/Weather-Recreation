@@ -9,32 +9,35 @@ import SwiftUI
 
 struct DailyView: View {
   
-  @EnvironmentObject var weather: WeatherPublisher
+  let daily: DailyViewModel
   
   var body: some View {
-    ForEach(weather.response.filteredDaily, id: \.dt) { day in
+    ForEach(daily.days(), id: \.dt) { day in
       HStack {
-        Text(day.weekday())
-          .frame(width: 100, alignment: .leading)
+        Text(daily.weekday(for: day))
+          .scaledFont(size: 20)
+          .frame(width: 120, alignment: .leading)
         
         Spacer()
         
-        day.weather.first?.symbol()
+        daily.icon(for: day)
           .renderingMode(.original)
-          .font(.system(size: 15))
+          .font(.headline)
           .frame(width: 20)
         
-        Text(day.formattedPop())
+        Text(daily.precipitation(for: day))
           .foregroundColor(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
           .font(.caption)
-          .frame(width: 35)
+          .frame(width: 50)
         
         Spacer()
         
-        Text("\(Int(day.temp.max))")
+        Text(daily.high(for: day))
+          .font(.headline)
           .frame(width: 30, alignment: .trailing)
         
-        Text("\(Int(day.temp.min))")
+        Text(daily.low(for: day))
+          .font(.headline)
           .frame(width: 30, alignment: .trailing)
           .foregroundColor(.gray)
       }
@@ -42,11 +45,5 @@ struct DailyView: View {
     }
     .padding(.horizontal)
     .padding(.bottom, 3)
-  }
-}
-
-struct DailyView_Previews: PreviewProvider {
-  static var previews: some View {
-    DailyView()
   }
 }

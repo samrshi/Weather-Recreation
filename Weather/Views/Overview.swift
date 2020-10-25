@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailView: View {
+struct Overview: View {
   let columns = [
     GridItem(.flexible()),
     GridItem(.flexible())
@@ -32,6 +32,6 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
   static var previews: some View {
-    DetailView()
+    Overview()
   }
 }

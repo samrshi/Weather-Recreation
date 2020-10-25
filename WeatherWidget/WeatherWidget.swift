@@ -11,11 +11,11 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
   func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date(), locationName: "Cupertino", weather: OneCallResponse.blankInit())
+    SimpleEntry(date: Date(), locationName: "Cupertino", weather: OneCallResponse.example())
   }
   
   func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), locationName: "Cupertino", weather: OneCallResponse.blankInit())
+    let entry = SimpleEntry(date: Date(), locationName: "Cupertino", weather: OneCallResponse.example())
     completion(entry)
   }
   
@@ -42,7 +42,7 @@ struct Provider: IntentTimelineProvider {
         weatherInfo = fetchedData
       } else {
         name = "Error"
-        let errWeather = OneCallResponse.blankInit()
+        let errWeather = OneCallResponse.example()
         weatherInfo = errWeather
       }
     

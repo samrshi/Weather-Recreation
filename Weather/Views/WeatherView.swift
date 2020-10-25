@@ -18,6 +18,7 @@ struct WeatherView: View {
   @EnvironmentObject var userInfo: UserInfo
   @StateObject private var weather: WeatherPublisher = WeatherPublisher()
   @State private var showSheet = false
+    
   var location: Location? = nil
   
   let timer = Timer.publish(every: 60*15, on: .main, in: .common).autoconnect()
@@ -25,18 +26,20 @@ struct WeatherView: View {
   var body: some View {
     ZStack {
       ScrollView(.vertical) {
-        CurrentView(showSheet: $showSheet)
+        HeaderView(showSheet: $showSheet)
+
+        CurrentView(current: CurrentViewModel(weather.response))
         
         Divider()
         
         ScrollView(.horizontal, showsIndicators: false) {
-          HourlyView(weather: weather.response, max: nil)
+          HourlyView(hourly: HourlyViewModel(weather.response, isWidget: false))
             .padding(.leading)
         }
         
         Divider()
         
-        DailyView()
+        DailyView(daily: DailyViewModel(weather: weather.response))
         
         Divider()
         
@@ -48,20 +51,22 @@ struct WeatherView: View {
     }
     .foregroundColor(.white)
     .environmentObject(weather)
+    .onAppear(perform: fillInLocation)
+    .onReceive(timer) { _ in
+      weather.getWeather()
+    }
     .sheet(isPresented: $showSheet) {
       SearchView()
         .environmentObject(userInfo)
     }
-    .onAppear {
-      if let location = location {
-        weather.locationType = .specific
-        weather.locationString = location.name
-        weather.latitude = location.lat
-        weather.longitude = location.lon
-        weather.getWeather()
-      }
-    }
-    .onReceive(timer) { _ in
+  }
+  
+  func fillInLocation() {
+    if let location = location {
+      weather.locationType = .specific
+      weather.locationString = location.name
+      weather.latitude = location.lat
+      weather.longitude = location.lon
       weather.getWeather()
     }
   }

@@ -15,7 +15,7 @@ struct WidgetView: View {
   
   var body: some View {
     ZStack {
-      Color.black
+      BackgroundView()
       
       VStack {
         HStack {
@@ -32,7 +32,7 @@ struct WidgetView: View {
           Spacer()
           
           VStack(alignment: .trailing, spacing: 2) {
-            weather.current.weather.first?.symbol()
+            weather.current.weather.first?.icon.symbol()
               .renderingMode(.original)
               .font(.system(size: 15))
               .padding(.bottom, 7)
@@ -47,7 +47,7 @@ struct WidgetView: View {
         
         Spacer()
                 
-        HourlyView(weather: weather, max: 5)
+        HourlyView(hourly: HourlyViewModel(weather, isWidget: true))
       }
       .padding()
     }

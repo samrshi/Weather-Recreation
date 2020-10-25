@@ -8,34 +8,6 @@
 import Foundation
 import WidgetKit
 
-extension FileManager {
-  static func sharedContainerURL() -> URL {
-    return FileManager.default.containerURL(
-      forSecurityApplicationGroupIdentifier: "group.com.samrshi.Weather.Weather.contents"
-    )!
-  }
-}
-
-struct Locations: Codable {
-  var current: Location
-  var cities: [Location]
-  
-  static func staticInit() -> Locations {
-    Locations(current: Location.staticInit(), cities: [])
-  }
-}
-
-struct Location: Codable, Hashable {
-  let name: String
-  
-  let lat: Double
-  let lon: Double
-  
-  static func staticInit() -> Location {
-    Location(name: "Empty", lat: 0, lon: 0)
-  }
-}
-
 class UserInfo: ObservableObject {
   
   static let shared = UserInfo()
@@ -85,5 +57,33 @@ class UserInfo: ObservableObject {
       }
     }
     return nil
+  }
+}
+
+extension FileManager {
+  static func sharedContainerURL() -> URL {
+    return FileManager.default.containerURL(
+      forSecurityApplicationGroupIdentifier: "group.com.samrshi.Weather.contents"
+    )!
+  }
+}
+
+struct Locations: Codable {
+  var current: Location
+  var cities: [Location]
+  
+  static func staticInit() -> Locations {
+    Locations(current: Location.staticInit(), cities: [])
+  }
+}
+
+struct Location: Codable, Hashable {
+  let name: String
+  
+  let lat: Double
+  let lon: Double
+  
+  static func staticInit() -> Location {
+    Location(name: "Empty", lat: 0, lon: 0)
   }
 }

@@ -10,13 +10,11 @@ import SwiftUI
 @main
 struct WeatherApp: App {
   @StateObject var userInfo: UserInfo = UserInfo.shared
-  @State private var count = 3
   
   var body: some Scene {
     WindowGroup {
       ZStack {
-        Color.black
-          .ignoresSafeArea(.all, edges: .all)
+        BackgroundView()
         
         TabView {
           WeatherView(location: nil)

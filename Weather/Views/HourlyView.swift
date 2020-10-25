@@ -9,43 +9,46 @@ import SwiftUI
 
 struct HourlyView: View {
   
-  let weather: OneCallResponse
-  let max: Int?
+  let hourly: HourlyViewModel
   
   var body: some View {
     HStack {
-      ForEach(weather.filteredHourly(max: max), id: \.dt) { hour in
+      ForEach(hourly.hours(), id: \.dt) { hour in
         VStack {
-          HStack(alignment: .bottom, spacing: 0) {
-            Text(hour.formattedHour())
-              .fontWeight(hour.formattedHour() == "Now" || max != nil ? .semibold : .regular)
-              .font(max == nil ? .footnote : .caption2)
-            
-            Text(hour.formattedPeriod())
-              .font(.caption2)
-              .fontWeight(max == nil ? .regular : .semibold)
-          }
-          .if(max != nil) {
-            $0.foregroundColor(Color(.lightGray))
-          }
-          .fixedSize(horizontal: true, vertical: false)
+          time(hour)
           
-          hour.weather.first?.symbol()
+          hourly.icon(for: hour)
             .renderingMode(.original)
-            .font(.system(size: 15))
-            .frame(height: max == nil ? 50 : 30)
+            .font(.headline)
+            .frame(height: hourly.isWidget ? 30 : 50)
           
-          Text("\(Int(hour.temp))º")
-            .font(max == nil ? .subheadline : .system(size: 12))
+          Text(hourly.temp(for: hour))
+            .font(hourly.isWidget ? .system(size: 12) : .headline)
+            .fontWeight(.regular)
+            .fixedSize()
         }
         .padding(.trailing, 6)
         
-        if weather.filteredHourly(max: max).firstIndex(where: {
-          $0.dt == hour.dt
-        }) != 4 {
+        if hour.dt != hourly.hours().last?.dt {
           Spacer()
         }
       }
     }
+  }
+  
+  func time(_ hour: HourlyResponse) -> some View {
+    HStack(alignment: .bottom, spacing: 0) {
+      Text(hourly.time(for: hour))
+        .fontWeight(hourly.time(for: hour) == "Now" || hourly.isWidget ? .semibold : .regular)
+        .font(hourly.isWidget ? .caption : .headline)
+
+      Text(hourly.period(for: hour))
+        .font(hourly.isWidget ? .caption : .subheadline)
+        .fontWeight(hourly.isWidget ? .semibold : .regular)
+    }
+    .if(hourly.isWidget) {
+      $0.foregroundColor(Color(.lightGray))
+    }
+    .fixedSize(horizontal: true, vertical: false)
   }
 }

@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import MapKit
 
-class LocationService: NSObject, ObservableObject {
+class SearchManager: NSObject, ObservableObject {
   
   enum LocationStatus: Equatable {
     case idle
@@ -33,8 +33,6 @@ class LocationService: NSObject, ObservableObject {
     
     queryCancellable = $queryFragment
       .receive(on: DispatchQueue.main)
-      // we're debouncing the search, because the search completer is rate limited.
-      // feel free to play with the proper value here
       .debounce(for: .milliseconds(250), scheduler: RunLoop.main, options: nil)
       .sink(receiveValue: { fragment in
         self.status = .isSearching
@@ -49,7 +47,7 @@ class LocationService: NSObject, ObservableObject {
   }
 }
 
-extension LocationService: MKLocalSearchCompleterDelegate {
+extension SearchManager: MKLocalSearchCompleterDelegate {
   func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
     self.searchResults = completer.results.filter({ $0.subtitle == "" })
     self.status = completer.results.isEmpty ? .noResults : .result

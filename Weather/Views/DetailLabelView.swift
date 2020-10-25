@@ -18,6 +18,7 @@ struct DetailLabelView: View {
         .foregroundColor(.secondary)
       
       Text(data)
+        .font(.title3)
     }
   }
 }

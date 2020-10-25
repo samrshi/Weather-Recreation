@@ -13,28 +13,27 @@ struct SearchView: View {
   @Environment(\.presentationMode) var presentationMode
   
   @EnvironmentObject var userInfo: UserInfo
-  @ObservedObject var locationService: LocationService = LocationService()
+  @ObservedObject var manager: SearchManager = SearchManager()
   
   var body: some View {
     NavigationView {
       Form {
         Section(header: Text("Location Search")) {
           ZStack(alignment: .trailing) {
-            TextField("Search", text: $locationService.queryFragment)
-            // This is optional and simply displays an icon during an active search
-            if locationService.status == .isSearching {
+            TextField("Search", text: $manager.queryFragment)
+            
+            if manager.status == .isSearching {
               Image(systemName: "clock")
                 .foregroundColor(Color.gray)
             }
           }
         }
         
-        if !locationService.queryFragment.isEmpty {
+        if !manager.queryFragment.isEmpty {
           Section(header: Text("Results")) {
             List {
-              // With Xcode 12, this will not be necessary as it supports switch statements.
               Group {
-                switch locationService.status {
+                switch manager.status {
                 case .noResults:
                   Text("No Results")
                 case .error(let description):
@@ -42,14 +41,12 @@ struct SearchView: View {
                 default:
                   EmptyView()
                 }
-              }.foregroundColor(Color.gray)
+              }
+              .foregroundColor(Color.gray)
               
-              ForEach(locationService.searchResults, id: \.self) { completionResult in
+              ForEach(manager.searchResults, id: \.self) { completionResult in
                 Button(action: {
-                  locationService.findCity(completionResult: completionResult) { location in
-                    userInfo.cities.cities.append(location)
-                  }
-                  self.presentationMode.wrappedValue.dismiss()
+                  addCity(completionResult)
                 }) {
                   Text(completionResult.title)
                     .foregroundColor(.gray)
@@ -76,13 +73,23 @@ struct SearchView: View {
           }
         }
       }
-      .navigationBarItems(leading: EditButton(), trailing:
-                            Button("Done")  {
-                              presentationMode.wrappedValue.dismiss()
-                            }
+      .navigationBarItems(
+        leading:
+          EditButton(),
+        trailing:
+          Button("Done")  {
+            presentationMode.wrappedValue.dismiss()
+          }
       )
       .navigationBarTitleDisplayMode(.inline)
     }
+  }
+  
+  func addCity(_ city: MKLocalSearchCompletion) {
+    manager.findCity(completionResult: city) { location in
+      userInfo.cities.cities.append(location)
+    }
+    self.presentationMode.wrappedValue.dismiss()
   }
   
   func delete(indexSet: IndexSet) {

@@ -51,7 +51,7 @@ class WeatherPublisher: NSObject, ObservableObject {
       response = fromDefaults
       loadingState = .filled
     } else {
-      response = OneCallResponse.blankInit()
+      response = OneCallResponse.example()
       loadingState = .empty
     }
     
@@ -60,7 +60,6 @@ class WeatherPublisher: NSObject, ObservableObject {
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
     self.locationManager.startUpdatingLocation()
-    updateLocationString()
     
     getWeather()
   }
