@@ -15,7 +15,6 @@ enum NetworkError: Error {
 
 public class API {
   static func fetch<T: Decodable>(type: T.Type, urlString: String, decodingStrategy: JSONDecoder.KeyDecodingStrategy, completion: @escaping (Result<T, NetworkError>) -> Void) {
-    print(urlString)
     guard let url = URL(string: urlString) else {
       print("Invalid URL")
       completion(.failure(.badURL(message: "Invalid URL")))

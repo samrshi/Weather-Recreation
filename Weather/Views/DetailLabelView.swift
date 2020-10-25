@@ -8,23 +8,32 @@
 import SwiftUI
 
 struct DetailLabelView: View {
-  let label: String
-  let data: String
+  let data: DataGroup
   
   var body: some View {
-    VStack(alignment: .leading) {
-      Text(label)
-        .font(.caption2)
-        .foregroundColor(.secondary)
+    HStack {
+      HStack {
+        VStack(alignment: .leading) {
+          Text(data.title1.uppercased())
+            .font(.caption2)
+            .foregroundColor(.secondary)
+          
+          Text(data.data1)
+            .font(.title3)
+        }
+        Spacer()
+      }
+      .frame(width: UIScreen.main.bounds.width / 2)
       
-      Text(data)
-        .font(.title3)
+      VStack(alignment: .leading) {
+        Text(data.title2.uppercased())
+          .font(.caption2)
+          .foregroundColor(.secondary)
+        
+        Text(data.data2)
+          .font(.title3)
+      }
+      Spacer()
     }
-  }
-}
-
-struct DetailLabelView_Previews: PreviewProvider {
-  static var previews: some View {
-    DetailLabelView(label: "SUNRISE", data: "7:14AM")
   }
 }

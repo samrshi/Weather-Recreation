@@ -8,30 +8,18 @@
 import SwiftUI
 
 struct Overview: View {
-  let columns = [
-    GridItem(.flexible()),
-    GridItem(.flexible())
-  ]
   
-  let data = (1...100).map { "Item \($0)" }
+  let overview: OverviewViewModel
   
   var body: some View {
-    LazyVGrid(columns: columns) {
-      ForEach(data, id: \.self) { item in
-        HStack {
-          Text(item)
-          
-          Spacer()
+    VStack {
+      ForEach(overview.overviewData(), id: \.self) { item in
+        VStack {
+          DetailLabelView(data: item)
+          MyDivider()
         }
-        .padding(.bottom)
+        .padding(.horizontal)
       }
     }
-    .padding()
-  }
-}
-
-struct DetailView_Previews: PreviewProvider {
-  static var previews: some View {
-    Overview()
   }
 }

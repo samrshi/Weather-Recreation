@@ -59,14 +59,14 @@ struct SearchView: View {
         
         Section(header: Text("My Cities")) {
           List {
-            ForEach(userInfo.cities.cities, id: \.self) { city in
+            ForEach(userInfo.locations.cities, id: \.self) { city in
               Text(city.name)
             }
             .onDelete(perform: delete)
             .onMove(perform: move)
           }
           
-          if userInfo.cities.cities.isEmpty {
+          if userInfo.locations.cities.isEmpty {
             Text("Search for a city to add it to your cities list")
               .foregroundColor(.gray)
               .font(.callout)
@@ -87,17 +87,17 @@ struct SearchView: View {
   
   func addCity(_ city: MKLocalSearchCompletion) {
     manager.findCity(completionResult: city) { location in
-      userInfo.cities.cities.append(location)
+      userInfo.locations.cities.append(location)
     }
     self.presentationMode.wrappedValue.dismiss()
   }
   
   func delete(indexSet: IndexSet) {
-    userInfo.cities.cities.remove(atOffsets: indexSet)
+    userInfo.locations.cities.remove(atOffsets: indexSet)
   }
   
   func move(indexSet: IndexSet, i: Int) {
-    userInfo.cities.cities.move(fromOffsets: indexSet, toOffset: i)
+    userInfo.locations.cities.move(fromOffsets: indexSet, toOffset: i)
   }
 }
 

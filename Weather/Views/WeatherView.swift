@@ -30,20 +30,22 @@ struct WeatherView: View {
 
         CurrentView(current: CurrentViewModel(weather.response))
         
-        Divider()
+        MyDivider()
         
         ScrollView(.horizontal, showsIndicators: false) {
           HourlyView(hourly: HourlyViewModel(weather.response, isWidget: false))
             .padding(.leading)
         }
-        
-        Divider()
+
+        MyDivider()
         
         DailyView(daily: DailyViewModel(weather: weather.response))
         
-        Divider()
+        MyDivider()
+
+        Overview(overview: OverviewViewModel(weather: weather.response))
         
-        Spacer()
+        MyDivider()
       }
     }
     .if(weather.loadingState == .empty) {

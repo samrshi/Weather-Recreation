@@ -13,19 +13,18 @@ class UserInfo: ObservableObject {
   static let shared = UserInfo()
   let citiesKey = "Cities"
   
-  @Published var cities: Locations {
+  @Published var locations: Locations {
     didSet {
-      print(cities.current.name)
       save()
     }
   }
   
   init() {
-    cities = UserInfo.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
+    locations = UserInfo.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
   }
   
   func save() {
-    if let encodedCities = try? JSONEncoder().encode(cities) {
+    if let encodedCities = try? JSONEncoder().encode(locations) {
       UserDefaults.standard.set(encodedCities, forKey: citiesKey)
     }
   }
@@ -34,7 +33,7 @@ class UserInfo: ObservableObject {
     let archiveURL = FileManager.sharedContainerURL()
       .appendingPathComponent("contents.json")
     let encoder = JSONEncoder()
-    if let dataToSave = try? encoder.encode(cities) {
+    if let dataToSave = try? encoder.encode(locations) {
       do {
         try dataToSave.write(to: archiveURL)
       } catch {
@@ -45,7 +44,7 @@ class UserInfo: ObservableObject {
   }
   
   func updateCurrentLocation(_ location: Location) {
-    cities.current = location
+    locations.current = location
     writeContents()
     WidgetCenter.shared.reloadAllTimelines()
   }

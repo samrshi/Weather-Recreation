@@ -59,6 +59,7 @@ struct WidgetView: View {
       }
       .padding()
     }
+    .widgetURL(URL(string: "widget://\(isCurrent ? "Current" : name)")!)
     .foregroundColor(.white)
   }
 }
