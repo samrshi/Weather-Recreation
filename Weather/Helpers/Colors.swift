@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension Color {
+extension Array where Element == Color {
   static var night: [Color] {
     [
       Color("nightTop"),

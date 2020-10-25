@@ -11,7 +11,7 @@ struct BackgroundView: View {
     
   var body: some View {
     LinearGradient(
-      gradient: Gradient(colors: Color.night),
+      gradient: Gradient(colors: .night),
       startPoint: .top,
       endPoint: .bottom
     )

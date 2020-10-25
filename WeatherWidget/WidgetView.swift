@@ -11,6 +11,7 @@ import WidgetKit
 struct WidgetView: View {
   
   let name: String
+  let isCurrent: Bool
   let weather: OneCallResponse
   
   var body: some View {
@@ -20,9 +21,16 @@ struct WidgetView: View {
       VStack {
         HStack {
           VStack(alignment: .leading) {
-            Text(name)
-              .font(.system(size: 15))
-              .fontWeight(.bold)
+            HStack {
+              if isCurrent {
+                Image(systemName: "location.fill")
+                  .font(.system(size: 10))
+              }
+              Text(name)
+                .fontWeight(.bold)
+                .font(.system(size: 15))
+            }
+            
             
             Text("\(Int(weather.current.temp))º")
               .font(.system(size: 35))
@@ -46,7 +54,7 @@ struct WidgetView: View {
         }
         
         Spacer()
-                
+        
         HourlyView(hourly: HourlyViewModel(weather, isWidget: true))
       }
       .padding()

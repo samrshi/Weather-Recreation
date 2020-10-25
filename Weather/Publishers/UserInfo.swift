@@ -60,13 +60,6 @@ class UserInfo: ObservableObject {
   }
 }
 
-extension FileManager {
-  static func sharedContainerURL() -> URL {
-    return FileManager.default.containerURL(
-      forSecurityApplicationGroupIdentifier: "group.com.samrshi.Weather.contents"
-    )!
-  }
-}
 
 struct Locations: Codable {
   var current: Location

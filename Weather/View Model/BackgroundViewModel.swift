@@ -13,11 +13,11 @@ struct BackgroundViewModel {
   func colors() -> [Color] {
     switch icon.last {
     case "d":
-      return Color.day
+      return .day
     case "n":
-      return Color.night
+      return .night
     default:
-      return Color.night
+      return .night
     }
   }
 }

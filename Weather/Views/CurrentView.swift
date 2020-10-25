@@ -26,7 +26,7 @@ public struct CurrentView: View {
             .fontWeight(.thin)
             .font(.system(size: 75))
           Text(current.feelsLike())
-            .foregroundColor(.gray)
+            .foregroundColor(Color(.lightGray))
         }
       }
       .padding(.vertical, 75)

@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 
+// currently unused
 class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
   
   static var shared = WidgetLocationManager()
