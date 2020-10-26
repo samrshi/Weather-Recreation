@@ -68,7 +68,7 @@ struct WeatherWidgetEntryView : View {
   var entry: Provider.Entry
   
   var body: some View {
-    WidgetView(name: entry.locationName, isCurrent: entry.isCurrent, weather: entry.weather)
+    WidgetView(name: entry.locationName, isCurrent: entry.isCurrent, weatherVM: WidgetViewModel(weather: entry.weather))
   }
 }
 

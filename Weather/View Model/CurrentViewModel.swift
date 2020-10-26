@@ -37,4 +37,8 @@ struct CurrentViewModel {
   func low() -> String {
     "Low: \(Int(weather.daily.first?.temp.min ?? -1))º"
   }
+  
+  func description() -> String {
+    weather.current.weather.first?.description.capitalized ?? ""
+  }
 }

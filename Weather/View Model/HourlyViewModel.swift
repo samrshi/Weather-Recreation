@@ -26,7 +26,7 @@ struct HourlyViewModel {
     
     if isWidget {
       filtered.removeFirst()
-      return Array(filtered.prefix(5))
+      return Array(filtered.prefix(6))
     }
     return filtered
   }

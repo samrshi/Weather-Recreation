@@ -12,7 +12,7 @@ struct WidgetView: View {
   
   let name: String
   let isCurrent: Bool
-  let weather: OneCallResponse
+  let weatherVM: WidgetViewModel
   
   var body: some View {
     ZStack {
@@ -31,8 +31,7 @@ struct WidgetView: View {
                 .font(.system(size: 15))
             }
             
-            
-            Text("\(Int(weather.current.temp))º")
+            Text(weatherVM.current.temperature())
               .font(.system(size: 35))
               .fontWeight(.light)
           }
@@ -40,14 +39,14 @@ struct WidgetView: View {
           Spacer()
           
           VStack(alignment: .trailing, spacing: 2) {
-            weather.current.weather.first?.icon.symbol()
+            weatherVM.current.icon()
               .renderingMode(.original)
               .font(.system(size: 15))
               .padding(.bottom, 7)
-            Text(weather.current.weather.first?.description.capitalized ?? "")
+            Text(weatherVM.current.description())
             HStack(spacing: 3) {
-              Text("H:\(Int(weather.daily.first?.temp.max ?? -1))º")
-              Text("L:\(Int(weather.daily.first?.temp.min ?? -1))º")
+              Text(weatherVM.current.high())
+              Text(weatherVM.current.high())
             }
           }
           .font(.system(size: 12))
@@ -55,7 +54,7 @@ struct WidgetView: View {
         
         Spacer()
         
-        HourlyView(hourly: HourlyViewModel(weather, isWidget: true))
+        HourlyView(hourly: weatherVM.hourly)
       }
       .padding()
     }
