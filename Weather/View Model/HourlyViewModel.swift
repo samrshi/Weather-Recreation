@@ -48,8 +48,8 @@ struct HourlyViewModel {
     return Calendar.current.isDate(Date(), equalTo: date, toGranularity: .hour) ? "" : formatter.string(from: date)
   }
   
-  func icon(for hour: HourlyResponse) -> Image {
-    hour.weather.first?.icon.symbol() ?? Image(systemName: "photo")
+  func icon(for hour: HourlyResponse) -> String {
+    hour.weather.first?.icon.symbol() ?? "photo"
   }
   
   func temp(for hour: HourlyResponse) -> String {

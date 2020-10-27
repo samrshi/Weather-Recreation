@@ -25,8 +25,8 @@ struct DailyViewModel {
     return formatter.string(from: date)
   }
   
-  func icon(for day: DailyResponse) -> Image {
-    day.weather.first?.icon.symbol() ?? Image(systemName: "photo")
+  func icon(for day: DailyResponse) -> String {
+    day.weather.first?.icon.symbol() ?? "photo"
   }
   
   func precipitation(for day: DailyResponse) -> String {

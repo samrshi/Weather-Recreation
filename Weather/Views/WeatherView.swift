@@ -20,6 +20,8 @@ struct WeatherView: View {
   @State private var showSheet = false
     
   var location: Location? = nil
+  @Binding var bgColors: [[Color]]
+  let index: Int
   
   let timer = Timer.publish(every: 60*15, on: .main, in: .common).autoconnect()
   
@@ -60,6 +62,10 @@ struct WeatherView: View {
     .sheet(isPresented: $showSheet) {
       SearchView()
         .environmentObject(userInfo)
+    }
+    .onChange(of: weather.response) { _ in
+      let vm = CurrentViewModel(weather.response)
+      bgColors[index] = vm.getBackgroundColors()
     }
   }
   

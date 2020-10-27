@@ -14,8 +14,8 @@ struct CurrentViewModel {
     weather = response
   }
   
-  func icon() -> Image {
-    weather.current.weather.first?.icon.symbol() ?? Image(systemName: "photo")
+  func icon() -> String {
+    weather.current.weather.first?.icon.symbol() ?? "photo"
   }
   
   func iconString() -> String {
@@ -40,5 +40,17 @@ struct CurrentViewModel {
   
   func description() -> String {
     weather.current.weather.first?.description.capitalized ?? ""
+  }
+  
+  func getBackgroundColors() -> [Color] {
+    let str = iconString()
+    switch str.last {
+    case "d":
+      return .day
+    case "n":
+      return .night
+    default:
+      return [.black]
+    }
   }
 }

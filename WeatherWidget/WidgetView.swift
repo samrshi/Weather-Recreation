@@ -16,30 +16,30 @@ struct WidgetView: View {
   
   var body: some View {
     ZStack {
-      BackgroundView()
+      BackgroundView(colors: weatherVM.current.getBackgroundColors())
       
       VStack {
         HStack {
           VStack(alignment: .leading) {
-            HStack {
+            HStack(spacing: 4) {
+              Text(name)
+                .font(.subheadline)
+                .fontWeight(.semibold)
               if isCurrent {
                 Image(systemName: "location.fill")
                   .font(.system(size: 10))
               }
-              Text(name)
-                .fontWeight(.bold)
-                .font(.system(size: 15))
             }
             
             Text(weatherVM.current.temperature())
-              .font(.system(size: 35))
               .fontWeight(.light)
+              .scaledFont(size: 37)
           }
           
           Spacer()
           
           VStack(alignment: .trailing, spacing: 2) {
-            weatherVM.current.icon()
+            Image(weatherVM.current.icon())
               .renderingMode(.original)
               .font(.system(size: 15))
               .padding(.bottom, 7)
@@ -56,7 +56,7 @@ struct WidgetView: View {
         
         HourlyView(hourly: weatherVM.hourly)
       }
-      .padding()
+      .padding(12)
     }
     .widgetURL(URL(string: "widget://\(isCurrent ? "Current" : name)")!)
     .foregroundColor(.white)

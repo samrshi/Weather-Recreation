@@ -14,7 +14,7 @@ public struct CurrentView: View {
   public var body: some View {
     VStack {
       HStack {
-        current.icon()
+        Image(systemName: current.icon())
           .renderingMode(.original)
           .font(.system(size: 80))
           .frame(height: 100)

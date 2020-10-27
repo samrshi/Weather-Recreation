@@ -23,7 +23,11 @@ struct OneCallResponse: Codable {
   }
 }
 
-extension OneCallResponse {
+extension OneCallResponse: Equatable {
+  static func == (lhs: OneCallResponse, rhs: OneCallResponse) -> Bool {
+    lhs.current.dt == rhs.current.dt
+  }
+  
   func formattedDate() -> String {
     let date = Date(timeIntervalSince1970: TimeInterval(current.dt))
     let sameDay = Calendar.current.isDate(date, equalTo: Date(), toGranularity: .day)

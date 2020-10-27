@@ -20,7 +20,7 @@ struct DailyView: View {
         
         Spacer()
         
-        daily.icon(for: day)
+        Image(systemName: daily.icon(for: day))
           .renderingMode(.original)
           .font(.headline)
           .frame(width: 20)
