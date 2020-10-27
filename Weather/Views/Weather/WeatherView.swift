@@ -18,7 +18,7 @@ struct WeatherView: View {
   @EnvironmentObject var userInfo: UserInfo
   @StateObject private var weather: WeatherPublisher = WeatherPublisher()
   @State private var showSheet = false
-    
+  
   var location: Location? = nil
   @Binding var bgColors: [[Color]]
   let index: Int
@@ -27,27 +27,30 @@ struct WeatherView: View {
   
   var body: some View {
     ZStack {
-      ScrollView(.vertical) {
+      VStack {
         HeaderView(showSheet: $showSheet)
-
-        CurrentView(current: CurrentViewModel(weather.response))
-        
         MyDivider()
         
-        ScrollView(.horizontal, showsIndicators: false) {
-          HourlyView(hourly: HourlyViewModel(weather.response, isWidget: false))
-            .padding(.leading)
+        ScrollView(.vertical) {
+          CurrentView(current: CurrentViewModel(weather.response))
+          
+          MyDivider()
+          
+          ScrollView(.horizontal, showsIndicators: false) {
+            HourlyView(hourly: HourlyViewModel(weather.response, isWidget: false))
+              .padding(.leading)
+          }
+          
+          MyDivider()
+          
+          DailyView(daily: DailyViewModel(weather: weather.response))
+          
+          MyDivider()
+          
+          Overview(overview: OverviewViewModel(weather: weather.response))
+          
+          MyDivider()
         }
-
-        MyDivider()
-        
-        DailyView(daily: DailyViewModel(weather: weather.response))
-        
-        MyDivider()
-
-        Overview(overview: OverviewViewModel(weather: weather.response))
-        
-        MyDivider()
       }
     }
     .if(weather.loadingState == .empty) {
