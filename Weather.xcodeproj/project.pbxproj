@@ -229,6 +229,37 @@
 			path = WeatherIntentHandler;
 			sourceTree = "<group>";
 		};
+		BD4D7D492547DDC6007AD320 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				BDBECCD62521A63400F176A3 /* WeatherView.swift */,
+				BDA1DB822544B50E009E8391 /* HeaderView.swift */,
+				BD6859532527A1170062ADCC /* CurrentView.swift */,
+				BDAC53CC2522B3CE00BBD68D /* HourlyView.swift */,
+				BDAC53D02522B64A00BBD68D /* DailyView.swift */,
+				BDF07CDD252992660031F488 /* Overview.swift */,
+				BDFD72EC2529A337002391F8 /* DetailLabelView.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		BD4D7D4A2547DDE7007AD320 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				BDAC53D62523A1ED00BBD68D /* SearchView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		BD4D7D4E2547DDF5007AD320 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BD027CCB2544F30A00DDBE88 /* BackgroundView.swift */,
+				BDF1BABB25460A9400BD58F5 /* MyDivider.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		BDA1DB772544B3EB009E8391 /* Publishers */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,16 +357,9 @@
 		BDC9A3FD2526EA8600811780 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BDBECCD62521A63400F176A3 /* WeatherView.swift */,
-				BDA1DB822544B50E009E8391 /* HeaderView.swift */,
-				BD6859532527A1170062ADCC /* CurrentView.swift */,
-				BDAC53CC2522B3CE00BBD68D /* HourlyView.swift */,
-				BDAC53D02522B64A00BBD68D /* DailyView.swift */,
-				BDF07CDD252992660031F488 /* Overview.swift */,
-				BDFD72EC2529A337002391F8 /* DetailLabelView.swift */,
-				BDAC53D62523A1ED00BBD68D /* SearchView.swift */,
-				BD027CCB2544F30A00DDBE88 /* BackgroundView.swift */,
-				BDF1BABB25460A9400BD58F5 /* MyDivider.swift */,
+				BD4D7D492547DDC6007AD320 /* Weather */,
+				BD4D7D4A2547DDE7007AD320 /* Search */,
+				BD4D7D4E2547DDF5007AD320 /* Helpers */,
 			);
 			path = Views;
 			sourceTree = "<group>";
