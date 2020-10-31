@@ -28,4 +28,18 @@ extension FileManager {
     }
     return contents
   }
+  
+  static func writeContents(locations: Locations) {
+    let archiveURL = FileManager.sharedContainerURL()
+      .appendingPathComponent("contents.json")
+    let encoder = JSONEncoder()
+    if let dataToSave = try? encoder.encode(locations) {
+      do {
+        try dataToSave.write(to: archiveURL)
+      } catch {
+        print("Error: Can't write contents")
+        return
+      }
+    }
+  }
 }

@@ -12,7 +12,7 @@ struct WidgetViewModel {
   let hourly: HourlyViewModel
   
   init(weather: OneCallResponse) {
-    current = CurrentViewModel(weather)
+    current = CurrentViewModel(weather, isWidget: true)
     hourly = HourlyViewModel(weather, isWidget: true)
   }
 }

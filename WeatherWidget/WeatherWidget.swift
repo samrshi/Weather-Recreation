@@ -25,12 +25,21 @@ struct Provider: IntentTimelineProvider {
     
     let current = FileManager.readContents().current
     
-    let latitude = configuration.city?.latitude ?? NSNumber(value: current.lat)
-    let longitude = configuration.city?.longitude ?? NSNumber(value: current.lon)
+    var latitude = configuration.city?.latitude ?? NSNumber(value: current.lat)
+    var longitude = configuration.city?.longitude ?? NSNumber(value: current.lon)
     
     var isCurrent = false
     if let name = configuration.city?.displayString {
       isCurrent = name == "My Location"
+    }
+    
+    var name = "Uhh"
+    if isCurrent {
+      name = current.name
+      latitude = NSNumber(value: current.lat)
+      longitude = NSNumber(value: current.lon)
+    } else {
+      name = configuration.city?.identifier ?? "Error"
     }
     
     API.fetch(
@@ -39,10 +48,8 @@ struct Provider: IntentTimelineProvider {
       decodingStrategy: .convertFromSnakeCase
     ) { result in
       let weatherInfo: OneCallResponse
-      var name = "Nothing"
     
       if case .success(let fetchedData) = result {
-        name = configuration.city?.identifier ?? "None"
         weatherInfo = fetchedData
       } else {
         name = "Error"

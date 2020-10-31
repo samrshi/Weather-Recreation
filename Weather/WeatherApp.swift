@@ -58,6 +58,9 @@ struct WeatherApp: App {
       .onAppear {
         bgColors = [[Color]](repeating: .night, count: userInfo.locations.cities.count + 1)
       }
+      .onChange(of: userInfo.locations.cities.count) { _ in
+        bgColors = [[Color]](repeating: .night, count: userInfo.locations.cities.count + 1)
+      }
     }
   }
 }

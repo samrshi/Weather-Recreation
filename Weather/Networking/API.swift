@@ -20,6 +20,7 @@ public class API {
       completion(.failure(.badURL(message: "Invalid URL")))
       return
     }
+    print(urlString)
     
     URLSession.shared.dataTask(with: url) { data, response, error in
       if let error = error {

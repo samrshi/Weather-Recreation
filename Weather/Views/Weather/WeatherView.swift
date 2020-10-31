@@ -29,10 +29,9 @@ struct WeatherView: View {
     ZStack {
       VStack {
         HeaderView(showSheet: $showSheet)
-        MyDivider()
         
         ScrollView(.vertical) {
-          CurrentView(current: CurrentViewModel(weather.response))
+          CurrentView(current: CurrentViewModel(weather.response, isWidget: false))
           
           MyDivider()
           
@@ -62,13 +61,13 @@ struct WeatherView: View {
     .onReceive(timer) { _ in
       weather.getWeather()
     }
+    .onChange(of: weather.response) { _ in
+      let vm = CurrentViewModel(weather.response, isWidget: false)
+      bgColors[index] = vm.getBackgroundColors()
+    }
     .sheet(isPresented: $showSheet) {
       SearchView()
         .environmentObject(userInfo)
-    }
-    .onChange(of: weather.response) { _ in
-      let vm = CurrentViewModel(weather.response)
-      bgColors[index] = vm.getBackgroundColors()
     }
   }
   
@@ -79,6 +78,8 @@ struct WeatherView: View {
       weather.latitude = location.lat
       weather.longitude = location.lon
       weather.getWeather()
+      let vm = CurrentViewModel(weather.response, isWidget: false)
+      bgColors[index] = vm.getBackgroundColors()
     }
   }
 }

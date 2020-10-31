@@ -19,7 +19,7 @@ enum LocationType {
   case specific
 }
 
-let apiKey = "6e53cf14bdc33a0553d5c58948097ad2"
+let apiKey = "00858e474ad1b9d21d540d0cd9cc718e"
 let responseKey = "OneCallResponse"
 
 class WeatherPublisher: NSObject, ObservableObject {
@@ -60,8 +60,6 @@ class WeatherPublisher: NSObject, ObservableObject {
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     self.locationManager.requestWhenInUseAuthorization()
     self.locationManager.startUpdatingLocation()
-    
-    getWeather()
   }
   
   func getWeather() {

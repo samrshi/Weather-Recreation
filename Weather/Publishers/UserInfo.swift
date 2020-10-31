@@ -29,23 +29,9 @@ class UserInfo: ObservableObject {
     }
   }
   
-  func writeContents() {
-    let archiveURL = FileManager.sharedContainerURL()
-      .appendingPathComponent("contents.json")
-    let encoder = JSONEncoder()
-    if let dataToSave = try? encoder.encode(locations) {
-      do {
-        try dataToSave.write(to: archiveURL)
-      } catch {
-        print("Error: Can't write contents")
-        return
-      }
-    }
-  }
-  
   func updateCurrentLocation(_ location: Location) {
     locations.current = location
-    writeContents()
+    FileManager.writeContents(locations: locations)
     WidgetCenter.shared.reloadAllTimelines()
   }
   

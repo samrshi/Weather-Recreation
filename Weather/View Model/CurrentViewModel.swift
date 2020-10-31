@@ -9,16 +9,18 @@ import SwiftUI
 
 struct CurrentViewModel {
   let weather: OneCallResponse
+  let isWidget: Bool
   
-  init(_ response: OneCallResponse) {
+  init(_ response: OneCallResponse, isWidget: Bool) {
     weather = response
+    self.isWidget = isWidget
   }
   
   func icon() -> String {
     weather.current.weather.first?.icon.symbol() ?? "photo"
   }
   
-  func iconString() -> String {
+  func iconRaw() -> String {
     weather.current.weather.first?.icon ?? "01n"
   }
   
@@ -43,7 +45,7 @@ struct CurrentViewModel {
   }
   
   func getBackgroundColors() -> [Color] {
-    let str = iconString()
+    let str = iconRaw()
     switch str.last {
     case "d":
       return .day
