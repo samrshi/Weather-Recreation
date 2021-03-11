@@ -47,7 +47,7 @@ struct HourlyView: View {
         .fontWeight(hourly.isWidget ? .semibold : .regular)
     }
     .if(hourly.isWidget) {
-      $0.foregroundColor(Color(.lightGray).opacity(0.75))
+      $0.foregroundColor(.secondary)
     }
     .fixedSize(horizontal: true, vertical: false)
   }

@@ -39,7 +39,7 @@ struct WidgetView: View {
           Spacer()
           
           VStack(alignment: .trailing, spacing: 2) {
-            Image(weatherVM.current.icon())
+            Image(systemName: weatherVM.current.icon())
               .renderingMode(.original)
               .font(.system(size: 15))
               .padding(.bottom, 7)

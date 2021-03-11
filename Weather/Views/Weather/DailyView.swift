@@ -39,7 +39,7 @@ struct DailyView: View {
         Text(daily.low(for: day))
           .font(.headline)
           .frame(width: 30, alignment: .trailing)
-          .foregroundColor(.gray)
+          .foregroundColor(.secondary)
       }
       .font(.subheadline)
     }

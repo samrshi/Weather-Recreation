@@ -32,7 +32,9 @@ class WeatherPublisher: NSObject, ObservableObject {
   
   @Published var locationString: String = "" {
     didSet {
-      updateUserInfo()
+      if locationType == .current {
+        updateUserInfo()
+      }
     }
   }
   @Published var loadingState: LoadingState = .empty

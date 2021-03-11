@@ -16,29 +16,30 @@ struct WeatherApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ZStack {
-        BackgroundView(colors: bgColors[currentTab])
-        
-        TabView(selection: $currentTab) {
-          WeatherView(location: nil, bgColors: $bgColors, index: 0)
-            .tabItem {
-              Image(systemName: "location.fill")
-            }
-            .tag(0)
-          
-          ForEach(userInfo.locations.cities, id: \.self) { location in
-            WeatherView(
-              location: location,
-              bgColors: $bgColors,
-              index: (userInfo.locations.cities.firstIndex(of: location) ?? 0) + 1
-            )
-            .tag((userInfo.locations.cities.firstIndex(of: location) ?? 0) + 1)
+      TabView(selection: $currentTab) {
+        WeatherView(location: nil, bgColors: $bgColors, index: 0)
+          .tabItem {
+            Image(systemName: "location.fill")
           }
+          .tag(0)
+        
+        ForEach(userInfo.locations.cities, id: \.self) { location in
+          WeatherView(
+            location: location,
+            bgColors: $bgColors,
+            index: (userInfo.locations.cities.firstIndex(of: location) ?? 0) + 1
+          )
+          .tag((userInfo.locations.cities.firstIndex(of: location) ?? 0) + 1)
         }
-        .tabViewStyle(PageTabViewStyle())
-        .id(userInfo.locations.cities.count)
-        .preferredColorScheme(.dark)
       }
+      .background(
+        BackgroundView(colors: bgColors[currentTab])
+      )
+      .tabViewStyle(
+        PageTabViewStyle(indexDisplayMode: .always)
+      )
+      .id(userInfo.locations.cities.count)
+      .preferredColorScheme(.dark)
       .environmentObject(userInfo)
       .onOpenURL { url in
         if url.absoluteString == "widget://Current" {
