@@ -1,1 +1,4 @@
 # Weather-Recreation
+| Photo | Description |
+| ---- | ---- |
+| ![Imgur](https://i.imgur.com/m2Fkv5Mm.png) ![Imgur](https://i.imgur.com/QqnQFarm.png) | I recreated the iOS Weather application as an exploration of new technologies.<br><br> Technologies used:<br>- SwiftUI <br>- Swift <br>-  WidgetKit <br>- CoreLocation <br>- MapKit <br>- FileManager<br>- URLSession<br>- Codable|
