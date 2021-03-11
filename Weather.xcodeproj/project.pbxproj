@@ -260,6 +260,17 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		BD6C1B4A25F9EA680099D9F2 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BD027CD72544F43500DDBE88 /* Weather.entitlements */,
+				BDBECCD82521A63600F176A3 /* Assets.xcassets */,
+				BDBECCDD2521A63600F176A3 /* Info.plist */,
+				BDBECCDA2521A63600F176A3 /* Preview Content */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		BDA1DB772544B3EB009E8391 /* Publishers */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,16 +331,13 @@
 		BDBECCD32521A63400F176A3 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				BD027CD72544F43500DDBE88 /* Weather.entitlements */,
 				BDBECCD42521A63400F176A3 /* WeatherApp.swift */,
 				BDC9A4002526EAB900811780 /* Networking */,
 				BDA1DB772544B3EB009E8391 /* Publishers */,
 				BDC9A3FD2526EA8600811780 /* Views */,
 				BDC9A3FC2526EA7900811780 /* View Model */,
 				BDC9A3FF2526EAAA00811780 /* Helpers */,
-				BDBECCD82521A63600F176A3 /* Assets.xcassets */,
-				BDBECCDD2521A63600F176A3 /* Info.plist */,
-				BDBECCDA2521A63600F176A3 /* Preview Content */,
+				BD6C1B4A25F9EA680099D9F2 /* Utils */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -854,12 +862,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Weather/Weather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Weather/Utils/Weather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Weather/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Weather/Utils/Preview Content\"";
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Weather/Info.plist;
+				INFOPLIST_FILE = Weather/Utils/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -878,12 +886,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Weather/Weather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Weather/Utils/Weather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Weather/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Weather/Utils/Preview Content\"";
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Weather/Info.plist;
+				INFOPLIST_FILE = Weather/Utils/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
