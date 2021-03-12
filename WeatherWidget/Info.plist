@@ -28,7 +28,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Get weather for current location</string>
 	<key>NSLocationUsageDescription</key>
-	<string>1</string>
+	<string>Get weather for current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Get weather for current location</string>
 	<key>NSWidgetWantsLocation</key>

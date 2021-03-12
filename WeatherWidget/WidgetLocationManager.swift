@@ -8,16 +8,12 @@
 import Foundation
 import CoreLocation
 
-// currently unused
+/// Currently unused. Location is given to widget via FileManager from app
 class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
-  
-  static var shared = WidgetLocationManager()
   
   var locationManager: CLLocationManager?
   private var handler: ((CLLocation) -> Void)?
-  
-  @Published var locationString = "None"
-  
+    
   override init() {
     super.init()
     DispatchQueue.main.async {

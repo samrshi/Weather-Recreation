@@ -9,61 +9,6 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-struct Provider: IntentTimelineProvider {
-  func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
-  }
-  
-  func getSnapshot(for configuration: LocationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
-    completion(entry)
-  }
-    
-  func getTimeline(for configuration: LocationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-    let currentDate = Date()
-    let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
-    
-    let current = FileManager.readContents().current
-    
-    var latitude = configuration.city?.latitude ?? NSNumber(value: current.lat)
-    var longitude = configuration.city?.longitude ?? NSNumber(value: current.lon)
-    
-    var isCurrent = false
-    if let name = configuration.city?.displayString {
-      isCurrent = name == "My Location"
-    }
-    
-    var name = "Uhh"
-    if isCurrent {
-      name = current.name
-      latitude = NSNumber(value: current.lat)
-      longitude = NSNumber(value: current.lon)
-    } else {
-      name = configuration.city?.identifier ?? "Error"
-    }
-    
-    API.fetch(
-      type: OneCallResponse.self,
-      urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
-      decodingStrategy: .convertFromSnakeCase
-    ) { result in
-      let weatherInfo: OneCallResponse
-    
-      if case .success(let fetchedData) = result {
-        weatherInfo = fetchedData
-      } else {
-        name = "Error"
-        let errWeather = OneCallResponse.example()
-        weatherInfo = errWeather
-      }
-    
-      let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: isCurrent, weather: weatherInfo)
-      let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
-      completion(timeline)
-    }
-  }
-}
-
 struct SimpleEntry: TimelineEntry {
   let date: Date
   let locationName: String
@@ -87,6 +32,7 @@ struct WeatherWidget: Widget {
     IntentConfiguration(kind: kind, intent: LocationIntent.self, provider: Provider()) { entry in
       WeatherWidgetEntryView(entry: entry)
     }
+    .supportedFamilies([.systemMedium])
     .configurationDisplayName("My Widget")
     .description("This is an example widget.")
   }
