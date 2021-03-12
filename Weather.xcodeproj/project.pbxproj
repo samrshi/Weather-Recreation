@@ -273,6 +273,18 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		BD70B8FE25FB688E001E1026 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				BD027D0425451B3000DDBE88 /* DyanamicLocation.intentdefinition */,
+				BDAC54152524178500BBD68D /* WeatherWidget.intentdefinition */,
+				BDAC54162524178A00BBD68D /* Assets.xcassets */,
+				BDAC54182524178A00BBD68D /* Info.plist */,
+				BD027CDA2544F44E00DDBE88 /* WeatherWidgetExtension.entitlements */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		BDA1DB772544B3EB009E8391 /* Publishers */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,11 +313,7 @@
 				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
 				BDAC54242524180A00BBD68D /* WidgetView.swift */,
 				BD4D7D3425475245007AD320 /* WidgetViewModel.swift */,
-				BD027D0425451B3000DDBE88 /* DyanamicLocation.intentdefinition */,
-				BDAC54152524178500BBD68D /* WeatherWidget.intentdefinition */,
-				BDAC54162524178A00BBD68D /* Assets.xcassets */,
-				BDAC54182524178A00BBD68D /* Info.plist */,
-				BD027CDA2544F44E00DDBE88 /* WeatherWidgetExtension.entitlements */,
+				BD70B8FE25FB688E001E1026 /* Utils */,
 			);
 			path = WeatherWidget;
 			sourceTree = "<group>";
@@ -705,10 +713,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WeatherWidget/WeatherWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Utils/WeatherWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherWidget/Info.plist;
+				INFOPLIST_FILE = WeatherWidget/Utils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -727,10 +735,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WeatherWidget/WeatherWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Utils/WeatherWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherWidget/Info.plist;
+				INFOPLIST_FILE = WeatherWidget/Utils/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
