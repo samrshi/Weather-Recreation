@@ -26,40 +26,12 @@ struct Provider: IntentTimelineProvider {
     if let name = configuration.city?.displayString {
       isCurrent = name == "My Location"
     }
-    
-    if !isCurrent, let latitude = configuration.city?.latitude, let longitude = configuration.city?.longitude {
-      API.fetch(
-        type: OneCallResponse.self,
-        urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
-        decodingStrategy: .convertFromSnakeCase
-      ) { result in
-        let weatherInfo: OneCallResponse
-        var name: String
-        
-        if case .success(let fetchedData) = result {
-          weatherInfo = fetchedData
-        } else {
-          name = "Error"
-          weatherInfo = .example()
-        }
-        name = configuration.city?.displayString ?? "Error"
-        
-        let currentDate = Date()
-        let refreshDate = Calendar.current.date(byAdding: .second, value: 30, to: currentDate)!
-        let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: false, weather: weatherInfo)
-        let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
-        completion(timeline)
-      }
-    } else {
+    if isCurrent {
       widgetLocationManager.fetchLocation { location in
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         
-        API.fetch(
-          type: OneCallResponse.self,
-          urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
-          decodingStrategy: .convertFromSnakeCase
-        ) { result in
+        fetchWeather(Double(latitude), Double(longitude)) { result in
           let weatherInfo: OneCallResponse
           var name: String = ""
           
@@ -77,14 +49,43 @@ struct Provider: IntentTimelineProvider {
               name = "error"
             }
             
-            let currentDate = Date()
-            let refreshDate = Calendar.current.date(byAdding: .second, value: 10, to: currentDate)!
-            let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: true, weather: weatherInfo)
-            let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
-            completion(timeline)
+            updateTimeline(name: name, weather: weatherInfo, isCurrent: true, completion: completion)
           }
         }
       }
+    } else if !isCurrent, let latitude = configuration.city?.latitude, let longitude = configuration.city?.longitude {
+      fetchWeather(Double(truncating: latitude), Double(truncating: longitude)) { result in
+        let weatherInfo: OneCallResponse
+        var name: String
+        
+        if case .success(let fetchedData) = result {
+          weatherInfo = fetchedData
+        } else {
+          name = "Error"
+          weatherInfo = .example()
+        }
+        name = configuration.city?.displayString ?? "Error"
+        
+        updateTimeline(name: name, weather: weatherInfo, isCurrent: false, completion: completion)
+      }
     }
+  }
+  
+  func fetchWeather(_ latitude: Double, _ longitude: Double, completion: @escaping (Result<OneCallResponse, NetworkError>) -> Void) {
+    API.fetch(
+      type: OneCallResponse.self,
+      urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
+      decodingStrategy: .convertFromSnakeCase
+    ) { result in
+      completion(result)
+    }
+  }
+  
+  func updateTimeline(name: String, weather: OneCallResponse, isCurrent: Bool, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+    let currentDate = Date()
+    let refreshDate = Calendar.current.date(byAdding: .second, value: 10, to: currentDate)!
+    let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: isCurrent, weather: weather)
+    let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
+    completion(timeline)
   }
 }
