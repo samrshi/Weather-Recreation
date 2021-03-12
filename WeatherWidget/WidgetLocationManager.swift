@@ -38,7 +38,7 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
     print(error)
   }
   
-  func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
+  func lookUpLocationName(completionHandler: @escaping (CLPlacemark?) -> Void ) {
     // Use the last reported location.
     if let lastLocation = self.locationManager?.location {
       let geocoder = CLGeocoder()

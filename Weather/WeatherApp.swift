@@ -48,7 +48,7 @@ struct WeatherApp: App {
         }
         
         for i in 0..<userInfo.locations.cities.count {
-          let name = userInfo.locations.cities[i].name
+          let name = userInfo.locations.cities[i].name.spacesToPluses()
           let link = "widget://\(name)"
           if link == url.absoluteString {
             currentTab = i + 1

@@ -58,7 +58,7 @@ struct WidgetView: View {
       }
       .padding(12)
     }
-    .widgetURL(URL(string: "widget://\(isCurrent ? "Current" : name)")!)
+    .widgetURL(URL(string: "widget://\(isCurrent ? "Current" : name.spacesToPluses())")!)
     .foregroundColor(.white)
   }
 }

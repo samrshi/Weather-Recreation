@@ -38,33 +38,33 @@ struct Provider: IntentTimelineProvider {
           if case .success(let fetchedData) = result {
             weatherInfo = fetchedData
           } else {
-            name = "Error"
+            name = "Network Error"
             weatherInfo = .example()
           }
           
-          widgetLocationManager.lookUpCurrentLocation { placemark in
+          widgetLocationManager.lookUpLocationName { placemark in
             if let placemark = placemark {
               name = placemark.locality!
             } else {
-              name = "error"
+              name = "Geocoding Error"
             }
             
             updateTimeline(name: name, weather: weatherInfo, isCurrent: true, completion: completion)
           }
         }
       }
-    } else if !isCurrent, let latitude = configuration.city?.latitude, let longitude = configuration.city?.longitude {
+    } else if !isCurrent, let latitude = configuration.city?.latitude, let longitude = configuration.city?.longitude, let cityName = configuration.city?.displayString {
       fetchWeather(Double(truncating: latitude), Double(truncating: longitude)) { result in
         let weatherInfo: OneCallResponse
         var name: String
         
         if case .success(let fetchedData) = result {
+          name = cityName
           weatherInfo = fetchedData
         } else {
-          name = "Error"
+          name = "Network Error"
           weatherInfo = .example()
         }
-        name = configuration.city?.displayString ?? "Error"
         
         updateTimeline(name: name, weather: weatherInfo, isCurrent: false, completion: completion)
       }
@@ -83,7 +83,7 @@ struct Provider: IntentTimelineProvider {
   
   func updateTimeline(name: String, weather: OneCallResponse, isCurrent: Bool, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
     let currentDate = Date()
-    let refreshDate = Calendar.current.date(byAdding: .second, value: 10, to: currentDate)!
+    let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
     let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: isCurrent, weather: weather)
     let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
     completion(timeline)
