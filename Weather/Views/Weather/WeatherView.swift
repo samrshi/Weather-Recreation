@@ -77,9 +77,9 @@ struct WeatherView: View {
       weather.locationString = location.name
       weather.latitude = location.lat
       weather.longitude = location.lon
-      weather.getWeather()
-      let vm = CurrentViewModel(weather.response, isWidget: false)
-      bgColors[index] = vm.getBackgroundColors()
     }
+    weather.getWeather()
+    let vm = CurrentViewModel(weather.response, isWidget: false)
+    bgColors[index] = vm.getBackgroundColors()
   }
 }
