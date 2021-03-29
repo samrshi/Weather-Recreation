@@ -96,7 +96,10 @@ class WeatherPublisher: NSObject, ObservableObject {
 }
 
 extension WeatherPublisher: CLLocationManagerDelegate {
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+  func locationManager(
+    _ manager: CLLocationManager,
+    didUpdateLocations locations: [CLLocation]
+  ) {
     guard locationType == .current else {
       return
     }
