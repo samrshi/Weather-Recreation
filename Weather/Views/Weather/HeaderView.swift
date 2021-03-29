@@ -13,7 +13,7 @@ struct HeaderView: View {
   @Binding var showSheet: Bool
   
   var body: some View {
-    HStack {
+    HStack(alignment: .top) {
       VStack(alignment: .leading) {
         Text("\(weather.locationString)")
           .font(.largeTitle)
@@ -29,6 +29,7 @@ struct HeaderView: View {
       }) {
         Image(systemName: "magnifyingglass")
           .foregroundColor(.white)
+          .font(.system(size: 20))
       }
     }
     .padding([.top, .horizontal])
