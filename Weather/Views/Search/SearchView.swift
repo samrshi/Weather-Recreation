@@ -12,8 +12,8 @@ import CoreLocation
 struct SearchView: View {
   @Environment(\.presentationMode) var presentationMode
   
-  @EnvironmentObject var userInfo: UserInfo
-  @ObservedObject var manager: SearchManager = SearchManager()
+  @ObservedObject var userInfo = UserInfo.shared
+  @ObservedObject var manager = SearchManager()
   
   var body: some View {
     NavigationView {

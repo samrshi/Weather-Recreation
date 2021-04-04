@@ -14,16 +14,24 @@ enum WeatherType {
 }
 
 struct WeatherView: View {
-  
-  @EnvironmentObject var userInfo: UserInfo
+  @ObservedObject var userInfo: UserInfo = UserInfo.shared
   @StateObject private var weather: WeatherPublisher = WeatherPublisher()
-  @State private var showSheet = false
+  @State private var showSheet: Bool = false
   
   var location: Location? = nil
   @Binding var bgColors: [[Color]]
   let index: Int
   
   let timer = Timer.publish(every: 60*15, on: .main, in: .common).autoconnect()
+  @State private var didAppear = false
+//  init(location: Location? = nil, bgColors: Binding<[[Color]]>, index: Int) {
+//    self.location = location
+//    self._bgColors = bgColors
+//    self.index = index
+//    
+//    self._weather = StateObject(wrappedValue: WeatherPublisher())
+//    self.fillInLocation()
+//  }
   
   var body: some View {
     ZStack {
@@ -57,7 +65,6 @@ struct WeatherView: View {
     }
     .foregroundColor(.white)
     .environmentObject(weather)
-    .onAppear(perform: fillInLocation)
     .onReceive(timer) { _ in
       weather.getWeather()
     }
@@ -67,7 +74,12 @@ struct WeatherView: View {
     }
     .sheet(isPresented: $showSheet) {
       SearchView()
-        .environmentObject(userInfo)
+    }
+    .onAppear {
+      if !didAppear {
+        fillInLocation()
+        didAppear = true
+      }
     }
   }
   
@@ -77,8 +89,8 @@ struct WeatherView: View {
       weather.locationString = location.name
       weather.latitude = location.lat
       weather.longitude = location.lon
+      weather.getWeather()
     }
-    weather.getWeather()
     let vm = CurrentViewModel(weather.response, isWidget: false)
     bgColors[index] = vm.getBackgroundColors()
   }

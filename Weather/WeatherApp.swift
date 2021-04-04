@@ -9,10 +9,14 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
-  @StateObject var userInfo: UserInfo = UserInfo.shared
+  @ObservedObject var userInfo: UserInfo = UserInfo.shared
   
   @State private var currentTab = 0
-  @State private var bgColors: [[Color]] = [[.clear]]
+  @State private var bgColors: [[Color]] = [[]]
+  
+  init() {
+    _bgColors = State(initialValue: [[Color]](repeating: [.clear], count: userInfo.locations.cities.count + 1))
+  }
   
   var body: some Scene {
     WindowGroup {
@@ -36,10 +40,6 @@ struct WeatherApp: App {
             oldLength: userInfo.locations.cities.count,
             newLength: new
           )
-        }
-        .onChange(of: bgColors[0]) { new in
-          print(new)
-          print("")
         }
       }
     }
