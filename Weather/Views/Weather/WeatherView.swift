@@ -24,7 +24,7 @@ struct WeatherView: View {
     self.weather = weather
     self.id = id
     
-    print("init weather view")
+//    print("init weather view")
   }
   
   var body: some View {

@@ -21,7 +21,31 @@ struct OverviewViewModel {
         title1: "Chance of Rain", data1: precipitation(),
         title2: "Humidty", data2: humidity()
       ),
+      DataGroup(
+        title1: "Wind", data1: wind(),
+        title2: "Pressure", data2: pressure()
+      ),
+      DataGroup(
+        title1: "Visibility", data1: visibility(),
+        title2: "UV Index", data2: uvi()
+      ),
     ]
+  }
+  
+  func uvi() -> String {
+   String(weather.current.uvi)
+  }
+  
+  func visibility() -> String {
+    let visibility = weather.current.visibility
+    let metersToMiles = 1/1609.34
+    let visibilityMiles = Int(visibility * metersToMiles)
+    return "\(visibilityMiles) mi"
+  }
+  
+  func pressure() -> String {
+    let pressure = weather.current.pressure
+    return "\(Int(pressure)) hPa"
   }
   
   func sunrise() -> String {

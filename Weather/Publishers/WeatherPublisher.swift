@@ -31,7 +31,7 @@ class WeatherPublisher: ObservableObject, LocationManagerDelegate {
   var timer: Timer? = nil
   
   init(location: Location?) {
-    print("init weather publisher")
+//    print("init weather publisher")
     loadingState = .empty
     response = OneCallResponse.example()
     
@@ -71,7 +71,7 @@ class WeatherPublisher: ObservableObject, LocationManagerDelegate {
   /// From locationManager: only called if this publisher is for current location
   /// - Parameter location: current location
   func locationsDidChange(location: Location) {
-    print("new location")
+//    print("new location")
     self.location = location
     getWeather()
   }
