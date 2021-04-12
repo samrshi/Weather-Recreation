@@ -13,10 +13,6 @@ struct WeatherApp: App {
   @State private var currentTab = 0
   @State private var showSearchSheet = false
   
-  init() {
-    UIToolbar.appearance().backgroundColor = .clear
-  }
-  
   var locations: [WeatherVC] {
     [WeatherVC(location: nil)] + userLocations.locations.cities.map { WeatherVC(location: $0) }
   }
