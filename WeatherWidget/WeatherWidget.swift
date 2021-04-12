@@ -9,7 +9,7 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-struct SimpleEntry: TimelineEntry {
+struct WeatherEntry: TimelineEntry {
   let date: Date
   let locationName: String
   let isCurrent: Bool

@@ -27,7 +27,6 @@ struct PageViewController: UIViewControllerRepresentable {
     pageViewController.delegate = context.coordinator
     
     configurePageControl(context: context)
-    pageViewController.view.addSubview(context.coordinator.pageControl)
     configureButton(context: context)
     setUpConstraints(context: context)
         
@@ -63,6 +62,7 @@ struct PageViewController: UIViewControllerRepresentable {
     context.coordinator.pageControl.backgroundStyle = .minimal
     context.coordinator.pageControl.isUserInteractionEnabled = false // change this if i want to implement vc change on tap
     context.coordinator.pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
+    pageViewController.view.addSubview(context.coordinator.pageControl)
   }
   
   func configureButton(context: Context) {

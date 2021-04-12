@@ -12,16 +12,16 @@ import Intents
 struct Provider: IntentTimelineProvider {
   var widgetLocationManager = WidgetLocationManager()
   
-  func placeholder(in context: Context) -> SimpleEntry {
-    SimpleEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
+  func placeholder(in context: Context) -> WeatherEntry {
+    WeatherEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
   }
   
-  func getSnapshot(for configuration: LocationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-    let entry = SimpleEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
+  func getSnapshot(for configuration: LocationIntent, in context: Context, completion: @escaping (WeatherEntry) -> ()) {
+    let entry = WeatherEntry(date: Date(), locationName: "Cupertino", isCurrent: true, weather: OneCallResponse.example())
     completion(entry)
   }
   
-  func getTimeline(for configuration: LocationIntent, in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+  func getTimeline(for configuration: LocationIntent, in context: Context, completion: @escaping (Timeline<WeatherEntry>) -> ()) {
     var isCurrent = false
     if let name = configuration.city?.displayString {
       isCurrent = name == "My Location"
@@ -81,10 +81,10 @@ struct Provider: IntentTimelineProvider {
     }
   }
   
-  func updateTimeline(name: String, weather: OneCallResponse, isCurrent: Bool, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
+  func updateTimeline(name: String, weather: OneCallResponse, isCurrent: Bool, completion: @escaping (Timeline<WeatherEntry>) -> ()) {
     let currentDate = Date()
     let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
-    let entry = SimpleEntry(date: currentDate, locationName: name, isCurrent: isCurrent, weather: weather)
+    let entry = WeatherEntry(date: currentDate, locationName: name, isCurrent: isCurrent, weather: weather)
     let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
     completion(timeline)
   }
