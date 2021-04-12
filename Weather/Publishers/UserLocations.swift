@@ -15,7 +15,7 @@ class UserLocations: ObservableObject {
   
   @Published var locations: Locations {
     didSet {
-      save()
+      updateCurrentLocation()
     }
   }
   
@@ -29,8 +29,7 @@ class UserLocations: ObservableObject {
     }
   }
   
-  func updateCurrentLocation(_ location: Location) {
-    locations.current = location
+  func updateCurrentLocation() {
     FileManager.writeContents(locations: locations)
     WidgetCenter.shared.reloadAllTimelines()
   }

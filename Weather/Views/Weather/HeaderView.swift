@@ -8,31 +8,22 @@
 import SwiftUI
 
 struct HeaderView: View {
-
-  @Binding var showSheet: Bool
+  @Binding var showSearchSheet: Bool
   let location: Location
   let response: OneCallResponse
   
   var body: some View {
-    HStack(alignment: .top) {
+    HStack(alignment: .center) {
       VStack(alignment: .leading) {
-        Text("\(location.name)")
+        Text(location.name)
           .font(.largeTitle)
         
         Text(response.formattedDate())
           .foregroundColor(.secondary)
       }
-      
       Spacer()
-      
-      Button(action: {
-        showSheet.toggle()
-      }) {
-        Image(systemName: "magnifyingglass")
-          .foregroundColor(.white)
-          .font(.system(size: 20))
-      }
     }
-    .padding([.top, .horizontal])
+    .padding(.top, 45)
+    .padding(.horizontal)
   }
 }

@@ -26,7 +26,8 @@ struct DailyView: View {
           .frame(width: 20)
         
         Text(daily.precipitation(for: day))
-          .foregroundColor(Color(#colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)))
+          .bold()
+          .foregroundColor(Color("ChanceOfRain"))
           .font(.caption)
           .frame(width: 50)
         

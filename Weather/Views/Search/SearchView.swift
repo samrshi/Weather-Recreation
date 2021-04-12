@@ -64,20 +64,17 @@ struct SearchView: View {
   }
   
   var searchResults: some View {
-    Section(header: Text("Results")) {
-      List {
-        resultsStatus
-        
-        ForEach(manager.searchResults, id: \.self) { completionResult in
-          Button(action: {
-            manager.addCity(completionResult)
-            presentationMode.wrappedValue.dismiss()
-          }) {
-            Text(completionResult.title)
-              .foregroundColor(.gray)
-          }
-          .buttonStyle(PlainButtonStyle())
+    List {
+      resultsStatus
+      
+      ForEach(manager.searchResults, id: \.self) { completionResult in
+        Button(action: {
+          manager.addCity(completionResult)
+        }) {
+          Text(completionResult.title)
+            .foregroundColor(.gray)
         }
+        .buttonStyle(PlainButtonStyle())
       }
     }
   }

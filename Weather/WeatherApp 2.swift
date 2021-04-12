@@ -11,23 +11,25 @@ import SwiftUI
 struct WeatherApp: App {
   @ObservedObject var userLocations: UserLocations = UserLocations.shared
   @State private var currentTab = 0
+  @State private var showSearchSheet = false
+  
+  init() {
+    UIToolbar.appearance().backgroundColor = .clear
+  }
+  
+  var locations: [WeatherVC] {
+    [WeatherVC(location: nil)] + userLocations.locations.cities.map { WeatherVC(location: $0) }
+  }
   
   var body: some Scene {
-    let binding = Binding(
-      get: {
-        [WeatherVC(location: nil)]
-        + userLocations.locations.cities.map { WeatherVC(location: $0) }
-      },
-      set: { _, _ in }
-    )
-    
-    return WindowGroup {
-      PageViewController(pages: binding, currentPage: $currentTab)
+    WindowGroup {
+      PageViewController(pages: locations, currentPage: $currentTab, showSearchSheet: $showSearchSheet)
         .ignoresSafeArea()
         .preferredColorScheme(.dark)
         .onOpenURL(perform: openURL)
+        .sheet(isPresented: $showSearchSheet) { SearchView() }
+      }
     }
-  }
   
   func openURL(url: URL) {
     if url.absoluteString == "widget://Current" {
@@ -35,11 +37,11 @@ struct WeatherApp: App {
       return
     }
     
-    for i in 0..<userLocations.locations.cities.count {
-      let name = userLocations.locations.cities[i].name.spacesToPluses()
+    for (index, location) in userLocations.locations.cities.enumerated() {
+      let name = location.name.spacesToPluses()
       let link = "widget://\(name)"
       if link == url.absoluteString {
-        currentTab = i + 1
+        currentTab = index + 1
         return
       }
     }

@@ -72,7 +72,7 @@ struct Provider: IntentTimelineProvider {
   }
   
   func fetchWeather(_ latitude: Double, _ longitude: Double, completion: @escaping (Result<OneCallResponse, NetworkError>) -> Void) {
-    API.fetch(
+    Network.fetch(
       type: OneCallResponse.self,
       urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
       decodingStrategy: .convertFromSnakeCase

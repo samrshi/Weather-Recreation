@@ -19,7 +19,7 @@ struct OneCallResponse: Codable {
   var daily: [DailyResponse]
   
   static func example() -> OneCallResponse {
-    OneCallResponse(lat: 40.12, lon: -96.66, timezone: "America/Chicago", timezoneOffset: -18000, current: CurrentResponse.example(), hourly: [HourlyResponse.example()], daily: [DailyResponse.example()])
+    OneCallResponse(lat: 40.12, lon: -96.66, timezone: "America/Chicago", timezoneOffset: -18000, current: CurrentResponse.example(), hourly: [HourlyResponse](repeating: .example(), count: 10), daily: [DailyResponse](repeating: .example(), count: 7))
   }
 }
 

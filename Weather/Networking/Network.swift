@@ -13,7 +13,7 @@ enum NetworkError: Error {
   case unknown(message: String)
 }
 
-public class API {
+public class Network {
   static func fetch<T: Decodable>(
     type: T.Type,
     urlString: String,
