@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct HeaderView: View {
-  
-  @EnvironmentObject var weather: WeatherPublisher
+
   @Binding var showSheet: Bool
+  let location: Location
+  let response: OneCallResponse
   
   var body: some View {
     HStack(alignment: .top) {
       VStack(alignment: .leading) {
-        Text("\(weather.locationString)")
+        Text("\(location.name)")
           .font(.largeTitle)
         
-        Text(weather.response.formattedDate())
+        Text(response.formattedDate())
           .foregroundColor(.secondary)
       }
       

@@ -1,70 +1,51 @@
 //
-//  LocationManager.swift
+//  WeatherPublisherNew.swift
 //  Weather
 //
-//  Created by Samuel Shi on 9/28/20.
+//  Created by Samuel Shi on 4/11/21.
 //
 
 import Foundation
-import CoreLocation
-import SwiftUI
 
-enum LoadingState {
-  case empty
-  case filled
-}
+class WeatherPublisher: ObservableObject, LocationManagerDelegate {
+//  private let apiKey = "6e53cf14bdc33a0553d5c58948097ad2"
+  private let apiKey = "819115d2218656ef7a506d449eb0c538"
 
-enum LocationType {
-  case current
-  case specific
-}
 
-let apiKey = "00858e474ad1b9d21d540d0cd9cc718e"
-let responseKey = "OneCallResponse"
 
-class WeatherPublisher: NSObject, ObservableObject {
-  
-  @Published var response: OneCallResponse {
-    didSet {
-      save()
-    }
+  @Published var response: OneCallResponse
+  @Published var loadingState: LoadingState
+  @Published var location: Location {
+    didSet { updateUserLocations() }
   }
   
-  @Published var locationString: String = "" {
-    didSet {
-      if locationType == .current {
-        updateUserLocations()
-      }
-    }
-  }
-  @Published var loadingState: LoadingState = .empty
-  @Published var locationType: LocationType = .current
-//  @Published var userLocations = UserLocations.shared
+  let locationType: LocationType
+  var locationManger: LocationManager? = nil
+  var timer: Timer? = nil
   
-  var latitude: Double = 0
-  var longitude: Double = 0
-  
-  private let locationManager = CLLocationManager()
-  private var oldLocation: CLLocation? = nil
+  init(location: Location?) {
+    loadingState = .empty
+    response = OneCallResponse.example()
     
-  override init() {
-    if let fromDefaults =  WeatherPublisher.getFromDefaults(forKey: responseKey, type: OneCallResponse.self) {
-      response = fromDefaults
-      loadingState = .filled
+    if let location = location {
+      self.location     = location
+      self.locationType = .specific
+      getWeather()
     } else {
-      response = OneCallResponse.example()
-      loadingState = .empty
+      self.location  = Location(name: "Loading", lat: 0, lon: 0)
+      locationManger = LocationManager()
+      locationType   = .current
+      locationManger?.delegate = self
     }
-    
-    super.init()
-    self.locationManager.delegate = self
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-    self.locationManager.requestWhenInUseAuthorization()
-    self.locationManager.startUpdatingLocation()
+//    timer = Timer.scheduledTimer(withTimeInterval: .fifteenMinutes, repeats: true) { [weak self] timer in
+//      self?.getWeather()
+//    }
   }
   
   func getWeather() {
-    let urlString = "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial"
+    let lat       = location.lat
+    let lon       = location.lon
+    let urlString = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=imperial"
     
     API.fetch(type: OneCallResponse.self, urlString: urlString, decodingStrategy: .convertFromSnakeCase) { result in
       switch result {
@@ -72,90 +53,20 @@ class WeatherPublisher: NSObject, ObservableObject {
         self.response = response
         self.loadingState = .filled
       case .failure(let error):
+        // handle error
         print(error.localizedDescription)
       }
     }
   }
   
-  func save() {
-    if let encodedResponse = try? JSONEncoder().encode(response) {
-      UserDefaults.standard.set(encodedResponse, forKey: responseKey)
-    }
-  }
-  
-  static func getFromDefaults<T: Decodable>(forKey: String, type: T.Type) -> T? {
-    if let data = UserDefaults.standard.data(forKey: forKey) {
-      if let decoded = try? JSONDecoder().decode(T.self, from: data) {
-        return decoded
-      }
-    }
-    return nil
-  }
-}
-
-extension WeatherPublisher: CLLocationManagerDelegate {
-  func locationManager(
-    _ manager: CLLocationManager,
-    didUpdateLocations locations: [CLLocation]
-  ) {
-    guard locationType == .current else {
-      return
-    }
-    
-    guard let location = locations.last else { return }
-    latitude = location.coordinate.latitude
-    longitude = location.coordinate.longitude
-    
-    if locationManager.authorizationStatus != .denied {
-      guard let oldLocation = oldLocation else {
-        self.oldLocation = location
-        updateLocationString()
-        getWeather()
-        return
-      }
-      
-      if location.distance(from: oldLocation) > 1000 {
-        updateLocationString()
-        getWeather()
-        print("location change")
-        self.oldLocation = location
-      }
-    }
-  }
-  
-  func updateLocationString() {
-    lookUpCurrentLocation { placemark in
-      if let placemark = placemark {
-        self.locationString = placemark.locality!
-      }
-    }
-  }
-  
   func updateUserLocations() {
-    UserLocations.shared.updateCurrentLocation(Location(name: locationString, lat: latitude, lon: longitude))
+    UserLocations.shared.updateCurrentLocation(location)
   }
   
-  func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
-    if locationType == .current {
-      // Use the last reported location.
-      if let lastLocation = self.locationManager.location {
-        let geocoder = CLGeocoder()
-        
-        // Look up the location and pass it to the completion handler
-        geocoder.reverseGeocodeLocation(lastLocation, completionHandler: { (placemarks, error) in
-          if error == nil {
-            let firstLocation = placemarks?[0]
-            completionHandler(firstLocation)
-          }
-          else {
-            // An error occurred during geocoding.
-            completionHandler(nil)
-          }
-        })
-      } else {
-        // No location was available.
-        completionHandler(nil)
-      }
-    }
+  /// From locationManager: only called if this publisher is for current location
+  /// - Parameter location: current location
+  func locationsDidChange(location: Location) {
+    self.location = location
+    getWeather()
   }
 }

@@ -1,87 +1,96 @@
 //
-//  PagerView.swift
-//  Weather
+//  TabViewController.swift
+//  UIKit + SwiftUI TabView
 //
-//  Created by Samuel Shi on 4/4/21.
+//  Created by Samuel Shi on 3/29/21.
 //
 
 import SwiftUI
+import UIKit
 
-struct PagerView<Content: View>: View {
-  let pageCount: Int
-  @Binding var currentIndex: Int
-  let content: Content
+struct PageViewController: UIViewControllerRepresentable {
+  @Binding var pages: [WeatherVC]
+  @Binding var currentPage: Int
   
-  @GestureState private var translation: CGFloat = 0
-  
-  init(pageCount: Int, currentIndex: Binding<Int>, @ViewBuilder content: () -> Content) {
-    self.pageCount = pageCount
-    self._currentIndex = currentIndex
-    self.content = content()
+  func makeCoordinator() -> Coordinator {
+    Coordinator(self)
   }
   
-  var body: some View {
-    GeometryReader { geometry in
-      ZStack {
-        HStack(spacing: 0) {
-          self.content.frame(width: geometry.size.width)
-        }
-        .frame(width: geometry.size.width, alignment: .leading)
-        .offset(x: -CGFloat(self.currentIndex) * geometry.size.width)
-        .offset(x: self.translation)
-        .animation(.interactiveSpring())
-        .gesture(
-          DragGesture().updating(self.$translation) { value, state, _ in
-            state = value.translation.width
-          }.onEnded { value in
-            let offset = value.translation.width / geometry.size.width
-            let newIndex = (CGFloat(self.currentIndex) - offset).rounded()
-            self.currentIndex = min(max(Int(newIndex), 0), self.pageCount - 1)
-          }
-        )
-        
-        VStack {
-          Spacer()
-          
-          HStack {
-            Image(systemName: "location.fill")
-              .resizable()
-              .foregroundColor(0 == self.currentIndex ? Color.white : Color.gray)
-              .frame(width: 12, height: 12)
-            
-            ForEach(1..<self.pageCount, id: \.self) { index in
-              Circle()
-                .fill(index == self.currentIndex ? Color.white : Color.gray)
-                .frame(width: 10, height: 10)
-            }
-          }
-          .padding()
-        }
+  func makeUIViewController(context: Context) -> UIPageViewController {
+    let pageViewController = UIPageViewController(
+      transitionStyle: .scroll,
+      navigationOrientation: .horizontal)
+    pageViewController.dataSource = context.coordinator
+    pageViewController.delegate = context.coordinator
+    
+    let pageControl = UIPageControl()
+    pageControl.numberOfPages = pages.count
+
+    pageViewController.view.addSubview(pageControl)
+    
+    return pageViewController
+  }
+  
+  func updateUIViewController(_ pageViewController: UIPageViewController, context: Context) {
+    pageViewController.setViewControllers(
+      [context.coordinator.controllers[currentPage]],
+      direction: .reverse, animated: true
+    )
+  }
+  
+  class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+    var parent: PageViewController
+    var controllers = [UIViewController]()
+    
+    init(_ pageViewController: PageViewController) {
+      parent = pageViewController
+      controllers = parent.pages
+    }
+    
+    func pageViewController(
+      _ pageViewController: UIPageViewController,
+      viewControllerBefore viewController: UIViewController) -> UIViewController?
+    {
+      guard let index = controllers.firstIndex(of: viewController) else { return nil }
+      if index == 0 {
+        return nil
+      }
+      return controllers[index - 1]
+    }
+    
+    func pageViewController(
+      _ pageViewController: UIPageViewController,
+      viewControllerAfter
+      viewController: UIViewController) -> UIViewController?
+    {
+      guard let index = controllers.firstIndex(of: viewController) else { return nil }
+      if index == controllers.count - 1 {
+        return nil
+      }
+      return controllers[index + 1]
+    }
+    
+    func pageViewController(
+      _ pageViewController: UIPageViewController,
+      didFinishAnimating finished: Bool,
+      previousViewControllers: [UIViewController],
+      transitionCompleted completed: Bool) {
+      if completed, let visibleViewController = pageViewController.viewControllers?.first,
+         let index = controllers.firstIndex(of: visibleViewController) {
+        parent.currentPage = index
       }
     }
+    
+    private func setupPageControl() {
+        let appearance = UIPageControl.appearance()
+        appearance.pageIndicatorTintColor = UIColor.gray
+        appearance.currentPageIndicatorTintColor = UIColor.white
+        appearance.backgroundColor = UIColor.darkGray
+    }
+
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        setupPageControl()
+        return controllers.count
+    }
   }
 }
-
-struct StatefulPreview : View {
-  @State private var index = 0
-  
-  var body: some View {
-    PagerView(pageCount: 3, currentIndex: $index) {
-      Color.blue
-        .onAppear {
-          print("hello")
-        }
-      Color.red
-      Color.green
-    }
-    .ignoresSafeArea()
-  }
-}
-
-#if DEBUG
-struct PagerView_Previews: PreviewProvider {
-    static var previews: some View {
-        StatefulPreview()
-    }
-}
-#endif

@@ -14,75 +14,53 @@ enum WeatherType {
 }
 
 struct WeatherView: View {
-  @StateObject private var weather: WeatherPublisher = WeatherPublisher()
+  @ObservedObject var weather: WeatherPublisher
   @State private var showSheet: Bool = false
+  @State private var background: [Color] = [.clear]
   
-  var location: Location? = nil
-  @Binding var bgColors: [[Color]]
-  let index: Int
-  
-  let timer = Timer.publish(every: 60*15, on: .main, in: .common).autoconnect()
-  @State private var didAppear = false
+  init(weather: WeatherPublisher) {
+    self.weather = weather
+    
+    print("init weather view")
+  }
   
   var body: some View {
     ZStack {
       VStack {
-        HeaderView(showSheet: $showSheet)
-        
-        ScrollView(.vertical) {
+        HeaderView(showSheet: $showSheet, location: weather.location, response: weather.response)
+
+        ScrollView(.vertical, showsIndicators: false) {
           CurrentView(current: CurrentViewModel(weather.response, isWidget: false))
-          
+
           MyDivider()
-          
+
           ScrollView(.horizontal, showsIndicators: false) {
             HourlyView(hourly: HourlyViewModel(weather.response, isWidget: false))
               .padding(.leading)
           }
-          
+
           MyDivider()
-          
+
           DailyView(daily: DailyViewModel(weather: weather.response))
-          
+
           MyDivider()
-          
+
           Overview(overview: OverviewViewModel(weather: weather.response))
-          
+
           MyDivider()
         }
       }
     }
-    .if(weather.loadingState == .empty) {
-      $0.redacted(reason: .placeholder)
-    }
+    .if(weather.loadingState == .empty) { $0.redacted(reason: .placeholder) }
+    .onAppear(perform: setBackground)
+    .onChange(of: weather.response) { _ in setBackground() }
+    .background(BackgroundView(colors: background))
     .foregroundColor(.white)
-    .environmentObject(weather)
-    .onReceive(timer) { _ in
-      weather.getWeather()
-    }
-    .onChange(of: weather.response) { _ in
-      let vm = CurrentViewModel(weather.response, isWidget: false)
-      bgColors[index] = vm.getBackgroundColors()
-    }
-    .sheet(isPresented: $showSheet) {
-      SearchView()
-    }
-    .onAppear {
-      if !didAppear {
-        fillInLocation()
-        didAppear = true
-      }
-    }
+    .sheet(isPresented: $showSheet) { SearchView() }
   }
   
-  func fillInLocation() {
-    if let location = location {
-      weather.locationType = .specific
-      weather.locationString = location.name
-      weather.latitude = location.lat
-      weather.longitude = location.lon
-      weather.getWeather()
-    }
-    let vm = CurrentViewModel(weather.response, isWidget: false)
-    bgColors[index] = vm.getBackgroundColors()
+  func setBackground() {
+    background = CurrentViewModel(weather.response, isWidget: false)
+      .getBackgroundColors()
   }
 }
