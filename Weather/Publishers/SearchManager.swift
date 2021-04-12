@@ -69,4 +69,10 @@ extension SearchManager: MKLocalSearchCompleterDelegate {
       completion(Location(name: String(string), lat: location.coordinate.latitude, lon: location.coordinate.longitude))
     }
   }
+  
+  func addCity(_ city: MKLocalSearchCompletion) {
+    findCity(completionResult: city) { location in
+      UserLocations.shared.locations.cities.append(location)
+    }
+  }
 }

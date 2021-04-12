@@ -12,61 +12,30 @@ import CoreLocation
 struct SearchView: View {
   @Environment(\.presentationMode) var presentationMode
   
-  @ObservedObject var userInfo = UserInfo.shared
-  @ObservedObject var manager = SearchManager()
+  @ObservedObject var userLocations = UserLocations.shared
+  @StateObject var manager = SearchManager()
   
   var body: some View {
     NavigationView {
       Form {
         Section(header: Text("Location Search")) {
-          ZStack(alignment: .trailing) {
-            TextField("Search", text: $manager.queryFragment)
-            
-            if manager.status == .isSearching {
-              Image(systemName: "clock")
-                .foregroundColor(Color.gray)
-            }
-          }
-        }
-        
-        if !manager.queryFragment.isEmpty {
-          Section(header: Text("Results")) {
-            List {
-              Group {
-                switch manager.status {
-                case .noResults:
-                  Text("No Results")
-                case .error(let description):
-                  Text("Error: \(description)")
-                default:
-                  EmptyView()
-                }
-              }
-              .foregroundColor(Color.gray)
-              
-              ForEach(manager.searchResults, id: \.self) { completionResult in
-                Button(action: {
-                  addCity(completionResult)
-                }) {
-                  Text(completionResult.title)
-                    .foregroundColor(.gray)
-                }
-                .buttonStyle(PlainButtonStyle())
-              }
-            }
+          searchField
+          
+          if !manager.queryFragment.isEmpty {
+            searchResults
           }
         }
         
         Section(header: Text("My Cities")) {
           List {
-            ForEach(userInfo.locations.cities, id: \.self) { city in
+            ForEach(userLocations.locations.cities, id: \.self) { city in
               Text(city.name)
             }
-            .onDelete(perform: delete)
-            .onMove(perform: move)
+            .onDelete(perform: deleteCity)
+            .onMove(perform: reorderCity)
           }
           
-          if userInfo.locations.cities.isEmpty {
+          if userLocations.locations.cities.isEmpty {
             Text("Search for a city to add it to your cities list")
               .foregroundColor(.gray)
               .font(.callout)
@@ -85,19 +54,56 @@ struct SearchView: View {
     }
   }
   
-  func addCity(_ city: MKLocalSearchCompletion) {
-    manager.findCity(completionResult: city) { location in
-      userInfo.locations.cities.append(location)
+  var searchField: some View {
+    ZStack(alignment: .trailing) {
+      TextField("Search", text: $manager.queryFragment)
+      
+      if manager.status == .isSearching {
+        Image(systemName: "clock")
+          .foregroundColor(Color.gray)
+      }
     }
-    self.presentationMode.wrappedValue.dismiss()
   }
   
-  func delete(indexSet: IndexSet) {
-    userInfo.locations.cities.remove(atOffsets: indexSet)
+  var searchResults: some View {
+    Section(header: Text("Results")) {
+      List {
+        resultsStatus
+        
+        ForEach(manager.searchResults, id: \.self) { completionResult in
+          Button(action: {
+            manager.addCity(completionResult)
+            presentationMode.wrappedValue.dismiss()
+          }) {
+            Text(completionResult.title)
+              .foregroundColor(.gray)
+          }
+          .buttonStyle(PlainButtonStyle())
+        }
+      }
+    }
   }
   
-  func move(indexSet: IndexSet, i: Int) {
-    userInfo.locations.cities.move(fromOffsets: indexSet, toOffset: i)
+  var resultsStatus: some View {
+    Group {
+      switch manager.status {
+      case .noResults:
+        Text("No Results")
+      case .error(let description):
+        Text("Error: \(description)")
+      default:
+        EmptyView()
+      }
+    }
+    .foregroundColor(Color.gray)
+  }
+  
+  func deleteCity(indexSet: IndexSet) {
+    userLocations.locations.cities.remove(atOffsets: indexSet)
+  }
+  
+  func reorderCity(indexSet: IndexSet, i: Int) {
+    userLocations.locations.cities.move(fromOffsets: indexSet, toOffset: i)
   }
 }
 
