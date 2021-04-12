@@ -11,7 +11,6 @@ import CoreLocation
 
 struct SearchView: View {
   @Environment(\.presentationMode) var presentationMode
-  
   @ObservedObject var userLocations = UserLocations.shared
   @StateObject var manager = SearchManager()
   
@@ -42,15 +41,14 @@ struct SearchView: View {
           }
         }
       }
-      .navigationBarItems(
-        leading:
-          EditButton(),
-        trailing:
-          Button("Done")  {
-            presentationMode.wrappedValue.dismiss()
-          }
-      )
+      .navigationBarItems(leading: EditButton(), trailing: doneButton)
       .navigationBarTitleDisplayMode(.inline)
+    }
+  }
+  
+  var doneButton: some View {
+    Button("Done")  {
+      presentationMode.wrappedValue.dismiss()
     }
   }
   
