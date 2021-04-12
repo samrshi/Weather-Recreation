@@ -1,5 +1,5 @@
 //
-//  UserInfo.swift
+//  UserLocations.swift
 //  Weather
 //
 //  Created by Samuel Shi on 9/29/20.
@@ -8,9 +8,9 @@
 import Foundation
 import WidgetKit
 
-class UserInfo: ObservableObject {
+class UserLocations: ObservableObject {
   
-  static let shared = UserInfo()
+  static let shared = UserLocations()
   let citiesKey = "Cities"
   
   @Published var locations: Locations {
@@ -20,7 +20,7 @@ class UserInfo: ObservableObject {
   }
   
   init() {
-    locations = UserInfo.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
+    locations = UserLocations.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
   }
   
   func save() {

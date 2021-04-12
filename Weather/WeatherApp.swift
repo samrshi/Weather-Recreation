@@ -9,13 +9,14 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
-  @ObservedObject var userInfo: UserInfo = UserInfo.shared
+  @ObservedObject var userLocations: UserLocations = UserLocations.shared
   
   @State private var currentTab = 0
   @State private var bgColors: [[Color]] = [[]]
   
   init() {
-    _bgColors = State(initialValue: [[Color]](repeating: [.clear], count: userInfo.locations.cities.count + 1))
+    let count = userLocations.locations.cities.count + 1
+    _bgColors = State(initialValue: [[Color]](repeating: [.clear], count: count))
   }
   
   var body: some Scene {
@@ -24,20 +25,19 @@ struct WeatherApp: App {
         TabView(selection: $currentTab) {
           currentWeatherView(geo: geo)
           
-          ForEach(userInfo.locations.cities, id: \.self) { location in
+          ForEach(userLocations.locations.cities, id: \.self) { location in
             locationWeatherView(location, geo: geo)
           }
         }
         .ignoresSafeArea()
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-        .id(userInfo.locations.cities.count)
+        .id(userLocations.locations.cities.count)
         .preferredColorScheme(.dark)
-        .environmentObject(userInfo)
         .onOpenURL(perform: openURL)
         .onAppear(perform: fillBackgroundDefault)
-        .onChange(of: userInfo.locations.cities.count) { [userInfo] new in
+        .onChange(of: userLocations.locations.cities.count) { [userLocations] new in
           fillBackgroundArray(
-            oldLength: userInfo.locations.cities.count,
+            oldLength: userLocations.locations.cities.count,
             newLength: new
           )
         }
@@ -85,8 +85,8 @@ struct WeatherApp: App {
       return
     }
     
-    for i in 0..<userInfo.locations.cities.count {
-      let name = userInfo.locations.cities[i].name.spacesToPluses()
+    for i in 0..<userLocations.locations.cities.count {
+      let name = userLocations.locations.cities[i].name.spacesToPluses()
       let link = "widget://\(name)"
       if link == url.absoluteString {
         currentTab = i + 1
@@ -97,7 +97,7 @@ struct WeatherApp: App {
   
   /// Fill Background Colors Array with Default Values
   func fillBackgroundDefault() {
-    bgColors = [[Color]](repeating: [.clear], count: userInfo.locations.cities.count + 1)
+    bgColors = [[Color]](repeating: [.clear], count: userLocations.locations.cities.count + 1)
   }
   
   func fillBackgroundArray(oldLength: Int, newLength: Int) {
@@ -107,7 +107,7 @@ struct WeatherApp: App {
   }
   
   func indexOfLocation(_ location: Location) -> Int {
-    (userInfo.locations.cities.firstIndex(of: location) ?? 0) + 1
+    (userLocations.locations.cities.firstIndex(of: location) ?? 0) + 1
   }
   
   func gradientForLocation(_ location: Location) -> LinearGradient {

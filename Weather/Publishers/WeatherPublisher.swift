@@ -33,14 +33,13 @@ class WeatherPublisher: NSObject, ObservableObject {
   @Published var locationString: String = "" {
     didSet {
       if locationType == .current {
-        updateUserInfo()
+        updateUserLocations()
       }
     }
   }
   @Published var loadingState: LoadingState = .empty
   @Published var locationType: LocationType = .current
-  
-  @Published var userInfo = UserInfo.shared
+//  @Published var userLocations = UserLocations.shared
   
   var latitude: Double = 0
   var longitude: Double = 0
@@ -76,7 +75,6 @@ class WeatherPublisher: NSObject, ObservableObject {
         print(error.localizedDescription)
       }
     }
-//    updateUserInfo()
   }
   
   func save() {
@@ -133,8 +131,8 @@ extension WeatherPublisher: CLLocationManagerDelegate {
     }
   }
   
-  func updateUserInfo() {
-    userInfo.updateCurrentLocation(Location(name: locationString, lat: latitude, lon: longitude))
+  func updateUserLocations() {
+    UserLocations.shared.updateCurrentLocation(Location(name: locationString, lat: latitude, lon: longitude))
   }
   
   func lookUpCurrentLocation(completionHandler: @escaping (CLPlacemark?) -> Void ) {
