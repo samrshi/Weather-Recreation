@@ -303,7 +303,7 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		BDA1DB772544B3EB009E8391 /* Publishers */ = {
+		BDA1DB772544B3EB009E8391 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				BDAC53D92523A4D600BBD68D /* UserLocations.swift */,
@@ -311,7 +311,7 @@
 				BDADB6A22623CEDF002048E1 /* LocationManager.swift */,
 				BD005C512536C87900116FC6 /* SearchManager.swift */,
 			);
-			path = Publishers;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		BDAC540D2524178500BBD68D /* Frameworks */ = {
@@ -363,7 +363,7 @@
 			children = (
 				BD6E7C1126240B4B00E6B142 /* WeatherApp.swift */,
 				BDC9A4002526EAB900811780 /* Networking */,
-				BDA1DB772544B3EB009E8391 /* Publishers */,
+				BDA1DB772544B3EB009E8391 /* Managers */,
 				BDC9A3FD2526EA8600811780 /* Views */,
 				BDC9A3FC2526EA7900811780 /* View Model */,
 				BDC9A3FF2526EAAA00811780 /* Helpers */,
