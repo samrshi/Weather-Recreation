@@ -14,13 +14,13 @@ enum WeatherType {
 }
 
 struct WeatherView: View {
-  @ObservedObject var weather: WeatherPublisher
+  @ObservedObject var weather: WeatherDataManager
   let id: String
 
   @State private var showSearchSheet = false
   @State private var background: [Color] = [.clear]
   
-  init(weather: WeatherPublisher, id: String) {
+  init(weather: WeatherDataManager, id: String) {
     self.weather = weather
     self.id = id
     

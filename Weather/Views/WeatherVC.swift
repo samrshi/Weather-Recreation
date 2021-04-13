@@ -12,7 +12,7 @@ class WeatherVC: UIViewController {
   let id = UUID().uuidString
   
   var location: Location?
-  var publisher: WeatherPublisher
+  var manager: WeatherDataManager
   
   var weatherView: UIHostingController<WeatherView>!
   let backgroundView = UIView()
@@ -20,7 +20,7 @@ class WeatherVC: UIViewController {
   
   init(location: Location?) {
     self.location = location
-    self.publisher = WeatherPublisher(location: location)
+    self.manager = WeatherDataManager(location: location)
     
     super.init(nibName: nil, bundle: nil)
     
@@ -41,14 +41,14 @@ class WeatherVC: UIViewController {
   }
   
   @objc func updateBackground() {
-    let colors = CurrentViewModel(publisher.response, isWidget: false).getBackgroundColors()
+    let colors = CurrentViewModel(manager.response, isWidget: false).getBackgroundColors()
     gradientLayer.colors = colors.map { color in
       UIColor(color).cgColor
     }
   }
   
   func configureWeatherView() {
-    let weather = UIHostingController(rootView: WeatherView(weather: publisher, id: id))
+    let weather = UIHostingController(rootView: WeatherView(weather: manager, id: id))
     weatherView = weather
     addChild(weather)
     view.addSubview(weather.view)

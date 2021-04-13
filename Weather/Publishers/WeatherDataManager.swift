@@ -1,5 +1,5 @@
 //
-//  WeatherPublisherNew.swift
+//  WeatherDataManager.swift
 //  Weather
 //
 //  Created by Samuel Shi on 4/11/21.
@@ -19,8 +19,7 @@ enum LocationType {
 
 let apiKey = "819115d2218656ef7a506d449eb0c538"
 
-class WeatherPublisher: ObservableObject, LocationManagerDelegate {
-//  private let apiKey = "6e53cf14bdc33a0553d5c58948097ad2"
+class WeatherDataManager: ObservableObject, LocationManagerDelegate {
 
   @Published var response: OneCallResponse
   @Published var loadingState: LoadingState
@@ -31,7 +30,6 @@ class WeatherPublisher: ObservableObject, LocationManagerDelegate {
   var timer: Timer? = nil
   
   init(location: Location?) {
-//    print("init weather publisher")
     loadingState = .empty
     response = OneCallResponse.example()
     
@@ -68,7 +66,7 @@ class WeatherPublisher: ObservableObject, LocationManagerDelegate {
     }
   }
   
-  /// From locationManager: only called if this publisher is for current location
+  /// From locationManager: only called if this manager is for current location
   /// - Parameter location: current location
   func locationsDidChange(location: Location) {
 //    print("new location")
