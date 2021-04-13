@@ -40,16 +40,18 @@ struct PageViewController: UIViewControllerRepresentable {
     if context.coordinator.pageControl.currentPage > currentPage {
       direction = .reverse
     }
-    pageViewController.reloadInputViews()
-    context.coordinator.controllers = pages
     
+    context.coordinator.controllers = pages
+    pageViewController.reloadInputViews()
+
     context.coordinator.pageControl.numberOfPages = pages.count
     context.coordinator.pageControl.currentPage = currentPage
-    
+
     var newIndex = currentPage
     if currentPage == pages.count {
       newIndex = 0
     }
+    
     pageViewController.setViewControllers(
       [context.coordinator.controllers[newIndex]],
       direction: direction, animated: animated
@@ -57,12 +59,14 @@ struct PageViewController: UIViewControllerRepresentable {
   }
   
   func configurePageControl(context: Context) {
-    context.coordinator.pageControl.numberOfPages = pages.count
-    context.coordinator.pageControl.currentPage = currentPage
-    context.coordinator.pageControl.backgroundStyle = .minimal
-    context.coordinator.pageControl.isUserInteractionEnabled = false // change this if i want to implement vc change on tap
-    context.coordinator.pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
-    pageViewController.view.addSubview(context.coordinator.pageControl)
+    let pageControl = context.coordinator.pageControl
+    
+    pageControl.numberOfPages = pages.count
+    pageControl.currentPage = currentPage
+    pageControl.backgroundStyle = .minimal
+    pageControl.isUserInteractionEnabled = false // change this if i want to implement vc change on tap
+    pageControl.setIndicatorImage(UIImage(systemName: "location.fill"), forPage: 0)
+    pageViewController.view.addSubview(pageControl)
   }
   
   func configureButton(context: Context) {
@@ -114,6 +118,7 @@ extension PageViewController {
       if index == 0 {
         return nil
       }
+      parent.currentPage -= 1
       return controllers[index - 1]
     }
     
@@ -123,6 +128,7 @@ extension PageViewController {
       if index == controllers.count - 1 {
         return nil
       }
+      parent.currentPage += 1
       return controllers[index + 1]
     }
     
@@ -134,10 +140,6 @@ extension PageViewController {
         parent.currentPage = index
         pageControl.currentPage = index
       }
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return controllers.count
     }
   }
 }
