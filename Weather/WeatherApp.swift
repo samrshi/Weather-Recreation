@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct WeatherApp: App {
-  @ObservedObject var userLocations: UserLocations = UserLocations.shared
+  @ObservedObject var userLocationsManager = UserLocationsManager.shared
   @State private var currentTab = 0
   @State private var showSearchSheet = false
   
   var locations: [WeatherVC] {
-    [WeatherVC(location: nil)] + userLocations.locations.cities.map { WeatherVC(location: $0) }
+    [WeatherVC(location: nil)] + userLocationsManager.locations.cities.map { WeatherVC(location: $0) }
   }
   
   var body: some Scene {
@@ -33,7 +33,7 @@ struct WeatherApp: App {
       return
     }
     
-    for (index, location) in userLocations.locations.cities.enumerated() {
+    for (index, location) in userLocationsManager.locations.cities.enumerated() {
       let name = location.name.spacesToPluses()
       let link = "widget://\(name)"
       if link == url.absoluteString {

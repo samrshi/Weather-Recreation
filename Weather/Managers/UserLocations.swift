@@ -1,5 +1,5 @@
 //
-//  UserLocations.swift
+//  UserLocationsManager.swift
 //  Weather
 //
 //  Created by Samuel Shi on 9/29/20.
@@ -8,9 +8,9 @@
 import Foundation
 import WidgetKit
 
-class UserLocations: ObservableObject {
+class UserLocationsManager: ObservableObject {
   
-  static let shared = UserLocations()
+  static let shared = UserLocationsManager()
   let citiesKey = "Cities"
   
   @Published var locations: Locations {
@@ -20,7 +20,7 @@ class UserLocations: ObservableObject {
   }
   
   init() {
-    locations = UserLocations.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
+    locations = UserLocationsManager.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
   }
   
   func save() {

@@ -11,7 +11,7 @@ import CoreLocation
 
 struct SearchView: View {
   @Environment(\.presentationMode) var presentationMode
-  @ObservedObject var userLocations = UserLocations.shared
+  @ObservedObject var userLocationsManager = UserLocationsManager.shared
   @StateObject var manager = SearchManager()
   
   var body: some View {
@@ -27,14 +27,14 @@ struct SearchView: View {
         
         Section(header: Text("My Cities")) {
           List {
-            ForEach(userLocations.locations.cities, id: \.self) { city in
+            ForEach(userLocationsManager.locations.cities, id: \.self) { city in
               Text(city.name)
             }
             .onDelete(perform: deleteCity)
             .onMove(perform: reorderCity)
           }
           
-          if userLocations.locations.cities.isEmpty {
+          if userLocationsManager.locations.cities.isEmpty {
             Text("Search for a city to add it to your cities list")
               .foregroundColor(.gray)
               .font(.callout)
@@ -94,11 +94,11 @@ struct SearchView: View {
   }
   
   func deleteCity(indexSet: IndexSet) {
-    userLocations.locations.cities.remove(atOffsets: indexSet)
+    userLocationsManager.locations.cities.remove(atOffsets: indexSet)
   }
   
   func reorderCity(indexSet: IndexSet, i: Int) {
-    userLocations.locations.cities.move(fromOffsets: indexSet, toOffset: i)
+    userLocationsManager.locations.cities.move(fromOffsets: indexSet, toOffset: i)
   }
 }
 
