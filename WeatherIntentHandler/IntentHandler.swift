@@ -12,11 +12,11 @@ class IntentHandler: INExtension, LocationIntentHandling {
     let contents = FileManager.readContents()
     var types = [MyType]()
     
-    let current = FileManager.readContents().current
+//    let current = contents.current
     types.append(
         MyType(
-        identifier: current.name, displayName: "My Location",
-        latitude: current.lat, longitude: current.lon
+          identifier: "", displayName: .myLocation,
+        latitude: 0, longitude: 0
       )
     )
     
@@ -31,14 +31,10 @@ class IntentHandler: INExtension, LocationIntentHandling {
     let collection = INObjectCollection(items: types)
     completion(collection, nil)
   }
-  
-  func defaultCity(for intent: LocationIntent) -> MyType? {
-    let current = FileManager.readContents().current
-    return MyType(
-      identifier: current.name, displayName: "My Location",
-      latitude: current.lat, longitude: current.lon
-    )
-  }
+}
+
+extension String {
+  static let myLocation = "My Location"
 }
 
 extension MyType {

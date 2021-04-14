@@ -12,7 +12,7 @@ import Intents
 struct WeatherEntry: TimelineEntry {
   let date: Date
   let locationName: String
-  let isCurrent: Bool
+  let isCurrentLocation: Bool
   let weather: OneCallResponse
 }
 
@@ -20,7 +20,7 @@ struct WeatherWidgetEntryView : View {
   var entry: Provider.Entry
   
   var body: some View {
-    WidgetView(name: entry.locationName, isCurrent: entry.isCurrent, weatherVM: WidgetViewModel(weather: entry.weather))
+    WidgetView(name: entry.locationName, isCurrent: entry.isCurrentLocation, weatherVM: WidgetViewModel(weather: entry.weather))
   }
 }
 
