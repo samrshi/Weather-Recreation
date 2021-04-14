@@ -11,7 +11,7 @@ import WidgetKit
 class UserLocationsManager: ObservableObject {
   
   static let shared = UserLocationsManager()
-  let citiesKey = "Cities"
+  let citiesKey = "locations"
   
   @Published var locations: [Location] {
     didSet {

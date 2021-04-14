@@ -9,11 +9,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>OHH4L3</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>19G2021</string>
+	<string>20D91</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>12A7300</string>
+	<string>12D4e</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>12.0.1</string>
+	<string>12.4</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -57,7 +57,7 @@
 					<key>INIntentParameterName</key>
 					<string>city</string>
 					<key>INIntentParameterObjectType</key>
-					<string>MyType</string>
+					<string>WidgetLocation</string>
 					<key>INIntentParameterObjectTypeNamespace</key>
 					<string>OHH4L3</string>
 					<key>INIntentParameterPromptDialogs</key>
@@ -113,13 +113,13 @@
 	<array>
 		<dict>
 			<key>INTypeDisplayName</key>
-			<string>My Type</string>
+			<string>Widget Location</string>
 			<key>INTypeDisplayNameID</key>
 			<string>iLmLvq</string>
 			<key>INTypeLastPropertyTag</key>
 			<integer>105</integer>
 			<key>INTypeName</key>
-			<string>MyType</string>
+			<string>WidgetLocation</string>
 			<key>INTypeProperties</key>
 			<array>
 				<dict>

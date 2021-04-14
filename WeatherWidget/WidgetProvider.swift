@@ -21,7 +21,12 @@ struct Provider: IntentTimelineProvider {
     in context: Context,
     completion: @escaping (WeatherEntry) -> ()
   ) {
-    let entry = WeatherEntry(date: Date(), locationName: "Cupertino", isCurrentLocation: true, weather: OneCallResponse.example())
+    let entry = WeatherEntry(
+      date: Date(),
+      locationName: "Cupertino",
+      isCurrentLocation: true,
+      weather: OneCallResponse.example()
+    )
     completion(entry)
   }
   

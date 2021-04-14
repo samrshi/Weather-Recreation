@@ -8,28 +8,36 @@
 import Intents
 
 class IntentHandler: INExtension, LocationIntentHandling {
-  func provideCityOptionsCollection(for intent: LocationIntent, with completion: @escaping (INObjectCollection<MyType>?, Error?) -> Void) {
+  func provideCityOptionsCollection(
+    for intent: LocationIntent,
+    with completion: @escaping (INObjectCollection<WidgetLocation>?, Error?) -> Void
+  ) {
     let cities = FileManager.readContents()
-    var types = [MyType]()
+    var options = [WidgetLocation]()
     
-//    let current = contents.current
-    types.append(
-        MyType(
-          identifier: "", displayName: .myLocation,
-        latitude: 0, longitude: 0
-      )
+    let current = WidgetLocation(
+      identifier: "", displayName: .myLocation,
+      latitude: 0, longitude: 0
     )
+    options.append(current)
     
     for city in cities {
-      types.append(
-        MyType(
-          identifier: city.name, displayName: city.name,
-          latitude: city.lat, longitude: city.lon
-        )
+      let specificCity = WidgetLocation(
+        identifier: city.name, displayName: city.name,
+        latitude: city.lat, longitude: city.lon
       )
+      options.append(specificCity)
     }
-    let collection = INObjectCollection(items: types)
+    
+    let collection = INObjectCollection(items: options)
     completion(collection, nil)
+  }
+  
+  func defaultCity(for intent: LocationIntent) -> WidgetLocation? {
+    WidgetLocation(
+      identifier: "", displayName: .myLocation,
+      latitude: 0, longitude: 0
+    )
   }
 }
 
@@ -37,7 +45,7 @@ extension String {
   static let myLocation = "My Location"
 }
 
-extension MyType {
+extension WidgetLocation {
   convenience init(
     identifier: String, displayName: String,
     latitude: Double, longitude: Double
