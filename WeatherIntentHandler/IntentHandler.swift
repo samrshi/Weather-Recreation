@@ -9,7 +9,7 @@ import Intents
 
 class IntentHandler: INExtension, LocationIntentHandling {
   func provideCityOptionsCollection(for intent: LocationIntent, with completion: @escaping (INObjectCollection<MyType>?, Error?) -> Void) {
-    let contents = FileManager.readContents()
+    let cities = FileManager.readContents()
     var types = [MyType]()
     
 //    let current = contents.current
@@ -20,7 +20,7 @@ class IntentHandler: INExtension, LocationIntentHandling {
       )
     )
     
-    for city in contents.cities {
+    for city in cities {
       types.append(
         MyType(
           identifier: city.name, displayName: city.name,

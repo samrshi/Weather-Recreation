@@ -14,14 +14,14 @@ extension FileManager {
     )!
   }
   
-  static func readContents() -> Locations {
-    var contents: Locations = Locations.staticInit()
+  static func readContents() -> [Location] {
+    var contents: [Location] = []
     let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
     
     let decoder = JSONDecoder()
     if let codeData = try? Data(contentsOf: archiveURL) {
       do {
-        contents = try decoder.decode(Locations.self, from: codeData)
+        contents = try decoder.decode([Location].self, from: codeData)
       } catch {
         print("Error: Can't decode contents")
       }
@@ -29,7 +29,7 @@ extension FileManager {
     return contents
   }
   
-  static func writeContents(locations: Locations) {
+  static func writeContents(locations: [Location]) {
     let archiveURL = FileManager.sharedContainerURL()
       .appendingPathComponent("contents.json")
     let encoder = JSONEncoder()

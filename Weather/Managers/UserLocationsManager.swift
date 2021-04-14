@@ -13,14 +13,16 @@ class UserLocationsManager: ObservableObject {
   static let shared = UserLocationsManager()
   let citiesKey = "Cities"
   
-  @Published var locations: Locations {
+  @Published var locations: [Location] {
     didSet {
       updateCurrentLocation()
     }
   }
   
   init() {
-    locations = UserLocationsManager.getFromDefaults(forKey: citiesKey, type: Locations.self) ?? Locations.staticInit()
+    locations = UserLocationsManager.getFromDefaults(
+      forKey: citiesKey, type: [Location].self
+    ) ?? []
   }
   
   func save() {
@@ -45,14 +47,14 @@ class UserLocationsManager: ObservableObject {
 }
 
 
-struct Locations: Codable {
-  var current: Location
-  var cities: [Location]
-  
-  static func staticInit() -> Locations {
-    Locations(current: Location.staticInit(), cities: [])
-  }
-}
+//struct Locations: Codable {
+//  var current: Location
+//  var cities: [Location]
+//  
+//  static func staticInit() -> Locations {
+//    Locations(current: Location.staticInit(), cities: [])
+//  }
+//}
 
 struct Location: Codable, Hashable {
   let name: String

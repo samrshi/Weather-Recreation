@@ -27,14 +27,14 @@ struct SearchView: View {
         
         Section(header: Text("My Cities")) {
           List {
-            ForEach(userLocationsManager.locations.cities, id: \.self) { city in
+            ForEach(userLocationsManager.locations, id: \.self) { city in
               Text(city.name)
             }
             .onDelete(perform: deleteCity)
             .onMove(perform: reorderCity)
           }
           
-          if userLocationsManager.locations.cities.isEmpty {
+          if userLocationsManager.locations.isEmpty {
             Text("Search for a city to add it to your cities list")
               .foregroundColor(.gray)
               .font(.callout)
@@ -94,11 +94,11 @@ struct SearchView: View {
   }
   
   func deleteCity(indexSet: IndexSet) {
-    userLocationsManager.locations.cities.remove(atOffsets: indexSet)
+    userLocationsManager.locations.remove(atOffsets: indexSet)
   }
   
   func reorderCity(indexSet: IndexSet, i: Int) {
-    userLocationsManager.locations.cities.move(fromOffsets: indexSet, toOffset: i)
+    userLocationsManager.locations.move(fromOffsets: indexSet, toOffset: i)
   }
 }
 
