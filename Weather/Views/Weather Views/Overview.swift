@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct Overview: View {
-  
+
   let overview: OverviewViewModel
-  
+
   var body: some View {
     VStack {
       ForEach(overview.overviewData(), id: \.self) { item in

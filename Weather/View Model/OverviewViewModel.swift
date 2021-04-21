@@ -8,9 +8,13 @@
 import Foundation
 
 struct OverviewViewModel {
-  
+
   let weather: OneCallResponse
-  
+
+  init(_ weather: OneCallResponse) {
+    self.weather = weather
+  }
+
   func overviewData() -> [DataGroup] {
     [
       DataGroup(
@@ -28,54 +32,54 @@ struct OverviewViewModel {
       DataGroup(
         title1: "Visibility", data1: visibility(),
         title2: "UV Index", data2: uvi()
-      ),
+      )
     ]
   }
-  
+
   func uvi() -> String {
    String(weather.current.uvi)
   }
-  
+
   func visibility() -> String {
     let visibility = weather.current.visibility
     let metersToMiles = 1/1609.34
     let visibilityMiles = Int(visibility * metersToMiles)
     return "\(visibilityMiles) mi"
   }
-  
+
   func pressure() -> String {
     let pressure = weather.current.pressure
     return "\(Int(pressure)) hPa"
   }
-  
+
   func sunrise() -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "h:mm a"
     let date = Date(timeIntervalSince1970: TimeInterval(weather.current.sunrise))
     return formatter.string(from: date)
   }
-  
+
   func sunset() -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = "h:mm a"
     let date = Date(timeIntervalSince1970: TimeInterval(weather.current.sunset))
     return formatter.string(from: date)
   }
-  
+
   func precipitation() -> String {
     let precip = Int(weather.hourly.first?.pop ?? 0 * 100)
     return "\(precip)%"
   }
-  
+
   func humidity() -> String {
     let humidity = weather.current.humidity
     return "\(humidity)%"
   }
-  
+
   func wind() -> String {
     let degrees = weather.current.windDeg
     var result = ""
-    
+
     switch degrees {
     case 11.25..<33.75:
       result += "NNE"
@@ -108,7 +112,7 @@ struct OverviewViewModel {
     default:
       result += "N"
     }
-    
+
     result += " \(Int(weather.current.windSpeed)) mph"
     return result
   }

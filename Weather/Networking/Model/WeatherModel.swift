@@ -13,7 +13,7 @@ struct Weather: Codable {
   var main: String
   var description: String
   var icon: String
-  
+
   static func example() -> Weather {
     Weather(id: 501, main: "Rain", description: "moderate rain", icon: "10n")
   }

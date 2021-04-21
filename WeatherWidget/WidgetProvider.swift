@@ -11,15 +11,15 @@ import Intents
 
 struct Provider: IntentTimelineProvider {
   var widgetLocationManager = WidgetLocationManager()
-  
+
   func placeholder(in context: Context) -> WeatherEntry {
     WeatherEntry(date: Date(), locationName: "Cupertino", isCurrentLocation: true, weather: OneCallResponse.example())
   }
-  
+
   func getSnapshot(
     for configuration: LocationIntent,
     in context: Context,
-    completion: @escaping (WeatherEntry) -> ()
+    completion: @escaping (WeatherEntry) -> Void
   ) {
     let entry = WeatherEntry(
       date: Date(),
@@ -29,11 +29,11 @@ struct Provider: IntentTimelineProvider {
     )
     completion(entry)
   }
-  
+
   func getTimeline(
     for configuration: LocationIntent,
     in context: Context,
-    completion: @escaping (Timeline<WeatherEntry>) -> ()
+    completion: @escaping (Timeline<WeatherEntry>) -> Void
   ) {
     var isCurrent = false
     if let name = configuration.city?.displayString {
@@ -45,32 +45,32 @@ struct Provider: IntentTimelineProvider {
       updateTimeLineForSpecific(configuration: configuration, completion: completion)
     }
   }
-  
+
   func updateTimeLineForCurrent(
-    completion: @escaping (Timeline<WeatherEntry>) -> ()
+    completion: @escaping (Timeline<WeatherEntry>) -> Void
   ) {
     widgetLocationManager.fetchLocation { location in
       let latitude = location.coordinate.latitude
       let longitude = location.coordinate.longitude
-      
+
       fetchWeather(Double(latitude), Double(longitude)) { result in
         let weatherInfo: OneCallResponse
         var name: String = ""
-        
+
         if case .success(let fetchedData) = result {
           weatherInfo = fetchedData
         } else {
           name = "Network Error"
           weatherInfo = .example()
         }
-        
+
         widgetLocationManager.lookUpLocationName { placemark in
           if let placemark = placemark {
             name = placemark.locality!
           } else {
             name += "Geocoding Error"
           }
-          
+
           updateTimeline(
             name: name,
             weather: weatherInfo,
@@ -81,19 +81,18 @@ struct Provider: IntentTimelineProvider {
       }
     }
   }
-  
+
   func updateTimeLineForSpecific(
     configuration: LocationIntent,
-    completion: @escaping (Timeline<WeatherEntry>) -> ()
+    completion: @escaping (Timeline<WeatherEntry>) -> Void
   ) {
     if let latitude = configuration.city?.latitude,
        let longitude = configuration.city?.longitude,
-       let cityName = configuration.city?.displayString
-    {
+       let cityName = configuration.city?.displayString {
       fetchWeather(Double(truncating: latitude), Double(truncating: longitude)) { result in
         let weatherInfo: OneCallResponse
         var name: String
-        
+
         if case .success(let fetchedData) = result {
           name = cityName
           weatherInfo = fetchedData
@@ -101,7 +100,7 @@ struct Provider: IntentTimelineProvider {
           name = "Network Error"
           weatherInfo = .example()
         }
-        
+
         updateTimeline(
           name: name,
           weather: weatherInfo,
@@ -111,7 +110,7 @@ struct Provider: IntentTimelineProvider {
       }
     }
   }
-  
+
   func fetchWeather(
     _ latitude: Double,
     _ longitude: Double,
@@ -119,18 +118,24 @@ struct Provider: IntentTimelineProvider {
   ) {
     Network.fetch(
       type: OneCallResponse.self,
-      urlString: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=imperial",
+      urlString: getURL(lat: latitude, lon: longitude),
       decodingStrategy: .convertFromSnakeCase
     ) { result in
       completion(result)
     }
   }
-  
+
+  func getURL(lat: Double, lon: Double) -> String {
+    var urlString = "https://api.openweathermap.org/data/2.5/"
+    urlString += "onecall?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=imperial"
+    return urlString
+  }
+
   func updateTimeline(
     name: String,
     weather: OneCallResponse,
     isCurrentLocation: Bool,
-    completion: @escaping (Timeline<WeatherEntry>) -> ()
+    completion: @escaping (Timeline<WeatherEntry>) -> Void
   ) {
     let currentDate = Date()
     let calendar = Calendar.current

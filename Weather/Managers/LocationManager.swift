@@ -8,25 +8,31 @@
 import Foundation
 import CoreLocation
 
-protocol LocationManagerDelegate {
-  func locationsDidChange(location: Location) -> Void
+protocol LocationManagerDelegate: AnyObject {
+  func locationsDidChange(location: Location)
 }
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-  private let locationManager = CLLocationManager()
-  var oldLocation: CLLocation? = nil
-  
-  var delegate: LocationManagerDelegate? = nil
-  
+  private let locationManager   = CLLocationManager()
+
+  let minDistance: Double       = 1000
+  var oldLocation: CLLocation?
+  weak var delegate: LocationManagerDelegate?
+
   override init() {
     super.init()
-    self.locationManager.delegate = self
+
+    self.locationManager.delegate        = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+
     self.locationManager.requestWhenInUseAuthorization()
     self.locationManager.startUpdatingLocation()
   }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+  func locationManager(
+    _ manager: CLLocationManager,
+    didUpdateLocations locations: [CLLocation]
+  ) {
     guard locationManager.authorizationStatus != .denied else { return }
     guard let location = locations.last else { return }
 
@@ -35,39 +41,39 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
       newLocation(with: location)
       return
     }
-    
-    if location.distance(from: oldLocation) > 1000 {
+
+    if location.distance(from: oldLocation) > minDistance {
       newLocation(with: location)
       self.oldLocation = location
     }
   }
-  
+
   func newLocation(with location: CLLocation) {
     let latitude  = location.coordinate.latitude
     let longitude = location.coordinate.longitude
-    
+
     lookUpCurrentLocation { [weak self] placemark in
       if let placemark = placemark {
-        let name = placemark.locality!
-        let location  = Location(name: name, lat: latitude, lon: longitude)
+        let name       = placemark.locality!
+        let location   = Location(name: name, lat: latitude, lon: longitude)
+
         self?.delegate?.locationsDidChange(location: location)
       }
     }
   }
-  
-  func lookUpCurrentLocation(completion: @escaping (CLPlacemark?) -> Void ) {
+
+  func lookUpCurrentLocation(completion: @escaping (CLPlacemark?) -> Void) {
     guard let lastLocation = self.locationManager.location else {
       completion(nil)
       return
     }
-    
+
     let geocoder = CLGeocoder()
-    // Look up the location and pass it to the completion handler
     geocoder.reverseGeocodeLocation(lastLocation) { (placemarks, error) in
-      if let _ = error {
+      if error != nil {
         completion(nil)
       }
-      
+
       let firstLocation = placemarks?[0]
       completion(firstLocation)
     }

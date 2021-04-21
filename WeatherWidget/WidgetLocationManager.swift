@@ -10,10 +10,10 @@ import CoreLocation
 
 /// Currently unused. Location is given to widget via FileManager from app
 class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
-  
+
   var locationManager: CLLocationManager?
   private var handler: ((CLLocation) -> Void)?
-    
+
   override init() {
     super.init()
     DispatchQueue.main.async {
@@ -24,24 +24,24 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
       }
     }
   }
-  
+
   func fetchLocation(handler: @escaping (CLLocation) -> Void) {
     self.handler = handler
     self.locationManager!.requestLocation()
   }
-  
+
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     self.handler!(locations.last!)
   }
-  
+
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     print(error)
   }
-  
+
   func lookUpLocationName(completionHandler: @escaping (CLPlacemark?) -> Void ) {
     if let lastLocation = self.locationManager?.location {
       let geocoder = CLGeocoder()
-      
+
       geocoder.reverseGeocodeLocation(lastLocation) { (placemarks, error) in
         if error == nil {
           let firstLocation = placemarks?[0]

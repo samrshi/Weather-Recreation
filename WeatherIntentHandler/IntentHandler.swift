@@ -12,15 +12,15 @@ class IntentHandler: INExtension, LocationIntentHandling {
     for intent: LocationIntent,
     with completion: @escaping (INObjectCollection<WidgetLocation>?, Error?) -> Void
   ) {
-    let cities = FileManager.readContents()
+    let cities = FileManager.readCitiesFromDisk() ?? []
     var options = [WidgetLocation]()
-    
+
     let current = WidgetLocation(
       identifier: "", displayName: .myLocation,
       latitude: 0, longitude: 0
     )
     options.append(current)
-    
+
     for city in cities {
       let specificCity = WidgetLocation(
         identifier: city.name, displayName: city.name,
@@ -28,11 +28,11 @@ class IntentHandler: INExtension, LocationIntentHandling {
       )
       options.append(specificCity)
     }
-    
+
     let collection = INObjectCollection(items: options)
     completion(collection, nil)
   }
-  
+
   func defaultCity(for intent: LocationIntent) -> WidgetLocation? {
     WidgetLocation(
       identifier: "", displayName: .myLocation,

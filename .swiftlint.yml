@@ -1,0 +1,7 @@
+cyclomatic_complexity:
+  ignores_case_statements: true 
+
+identifier_name:
+  excluded: # excluded via string array
+    - id
+    - dt

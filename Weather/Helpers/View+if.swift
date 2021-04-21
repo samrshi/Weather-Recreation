@@ -11,10 +11,8 @@ extension View {
   func `if`<T: View>(_ condition: Bool, apply: (Self) -> T) -> some View {
     if condition {
       return AnyView(apply(self))
-    }
-    else {
+    } else {
       return AnyView(self)
     }
   }
 }
-

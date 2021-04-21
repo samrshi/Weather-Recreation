@@ -21,29 +21,30 @@ public class Network {
     completion: @escaping (Result<T, NetworkError>
   ) -> Void) {
     guard let url = URL(string: urlString) else {
-      print("Invalid URL")
       completion(.failure(.badURL(message: "Invalid URL")))
       return
     }
 //    print(urlString)
-    
-    URLSession.shared.dataTask(with: url) { data, response, error in
+
+    URLSession.shared.dataTask(with: url) { data, _, error in
       if let error = error {
-        print("Error: \(error.localizedDescription)")
-        completion(.failure(.requestFailed(message: "Error: \(error.localizedDescription)")))
+        let message = "Error: \(error.localizedDescription)"
+        completion(.failure(.requestFailed(message: message)))
         return
       }
-      
+
       guard let data = data else { return }
+
       DispatchQueue.main.async {
         do {
           let decoder = JSONDecoder()
           decoder.keyDecodingStrategy = decodingStrategy
+
           let result = try decoder.decode(T.self, from: data)
           completion(.success(result))
-        } catch let err {
-          print(err)
-          completion(.failure(.unknown(message: "Unknown Error: \(err.localizedDescription)")))
+        } catch let error {
+          let message = "Unknown Error: \(error.localizedDescription)"
+          completion(.failure(.unknown(message: message)))
         }
       }
     }.resume()

@@ -10,7 +10,7 @@ import Combine
 import MapKit
 
 class SearchManager: NSObject, ObservableObject {
-  
+
   enum LocationStatus: Equatable {
     case idle
     case noResults
@@ -18,24 +18,25 @@ class SearchManager: NSObject, ObservableObject {
     case error(String)
     case result
   }
-  
+
   @Published var queryFragment: String = ""
   @Published private(set) var status: LocationStatus = .idle
   @Published private(set) var searchResults: [MKLocalSearchCompletion] = []
-  
+
   private var queryCancellable: AnyCancellable?
   private let searchCompleter: MKLocalSearchCompleter!
-  
+
   init(searchCompleter: MKLocalSearchCompleter = MKLocalSearchCompleter()) {
     self.searchCompleter = searchCompleter
     super.init()
     self.searchCompleter.delegate = self
-    
+
     queryCancellable = $queryFragment
       .receive(on: DispatchQueue.main)
       .debounce(for: .milliseconds(250), scheduler: RunLoop.main, options: nil)
-      .sink(receiveValue: { fragment in
+      .sink { fragment in
         self.status = .isSearching
+
         if !fragment.isEmpty {
           self.searchCompleter.queryFragment = fragment
         } else {
@@ -43,7 +44,6 @@ class SearchManager: NSObject, ObservableObject {
           self.searchResults = []
         }
       }
-      )
   }
 }
 
@@ -52,24 +52,40 @@ extension SearchManager: MKLocalSearchCompleterDelegate {
     self.searchResults = completer.results.filter({ $0.subtitle == "" })
     self.status = completer.results.isEmpty ? .noResults : .result
   }
-  
-  func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+
+  func completer(
+    _ completer: MKLocalSearchCompleter,
+    didFailWithError error: Error
+  ) {
     self.status = .error(error.localizedDescription)
   }
-  
-  func findCity(completionResult: MKLocalSearchCompletion, completion: @escaping (Location) -> Void) {
+
+  func findCity(
+    completionResult: MKLocalSearchCompletion,
+    completion: @escaping (Location) -> Void
+  ) {
     let geocoder = CLGeocoder()
-    geocoder.geocodeAddressString(completionResult.title) { placemarks, error in
-      guard let placemarks = placemarks, let location = placemarks.first?.location else {
-        return
+
+    geocoder.geocodeAddressString(completionResult.title) { placemarks, _ in
+      guard let placemarks = placemarks else { return }
+      guard let location = placemarks.first?.location else { return }
+      var name = completionResult.title
+
+      if let index = completionResult.title.firstIndex(of: ",") {
+        let prefix = completionResult.title.prefix(upTo: index)
+        name = String(prefix)
       }
-      let index = completionResult.title.firstIndex(of: ",")
-      let string = completionResult.title.prefix(upTo: index ?? completionResult.title.endIndex)
-      
-      completion(Location(name: String(string), lat: location.coordinate.latitude, lon: location.coordinate.longitude))
+
+      let result = Location(
+        name: name,
+        lat: location.coordinate.latitude,
+        lon: location.coordinate.longitude
+      )
+
+      completion(result)
     }
   }
-  
+
   func addCity(_ city: MKLocalSearchCompletion) {
     findCity(completionResult: city) { location in
       UserLocationsManager.shared.locations.append(location)

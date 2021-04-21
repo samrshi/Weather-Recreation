@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BackgroundViewModel {
   let icon: String
-  
+
   func colors() -> [Color] {
     switch icon.last {
     case "d":

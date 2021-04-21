@@ -10,43 +10,43 @@ import UIKit
 
 class WeatherVC: UIViewController {
   let id = UUID().uuidString
-  
+
   var location: Location?
   var manager: WeatherDataManager
-  
+
   var weatherView: UIHostingController<WeatherView>!
   let backgroundView = UIView()
   let gradientLayer = CAGradientLayer()
-  
+
   init(location: Location?) {
     self.location = location
     self.manager = WeatherDataManager(location: location)
-    
+
     super.init(nibName: nil, bundle: nil)
-    
+
     let name = NSNotification.Name(rawValue: id)
     let action = #selector(updateBackground)
     NotificationCenter.default.addObserver(self, selector: action, name: name, object: nil)
   }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     configureBackground()
     configureWeatherView()
     setUpConstraints()
   }
-  
+
   override func viewDidLayoutSubviews() {
     weatherView.view.backgroundColor = .clear
   }
-  
+
   @objc func updateBackground() {
-    let colors = CurrentViewModel(manager.response, isWidget: false).getBackgroundColors()
+    let colors = CurrentViewModel(manager.response).getBackgroundColors()
     gradientLayer.colors = colors.map { color in
       UIColor(color).cgColor
     }
   }
-  
+
   func configureWeatherView() {
     let weather = UIHostingController(rootView: WeatherView(weather: manager, id: id))
     weatherView = weather
@@ -54,7 +54,7 @@ class WeatherVC: UIViewController {
     view.addSubview(weather.view)
     weatherView.didMove(toParent: self)
   }
-  
+
   func configureBackground() {
     gradientLayer.frame = view.bounds
     updateBackground()
@@ -62,7 +62,7 @@ class WeatherVC: UIViewController {
     backgroundView.layer.addSublayer(gradientLayer)
     view.addSubview(backgroundView)
   }
-  
+
   func setUpConstraints() {
     let safe = view.safeAreaLayoutGuide
 
@@ -73,7 +73,7 @@ class WeatherVC: UIViewController {
       weatherView.view.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
       weatherView.view.trailingAnchor.constraint(equalTo: safe.trailingAnchor)
     ])
-    
+
     backgroundView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -82,7 +82,7 @@ class WeatherVC: UIViewController {
       backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
   }
-  
+
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

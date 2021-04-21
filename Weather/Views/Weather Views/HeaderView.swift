@@ -8,17 +8,16 @@
 import SwiftUI
 
 struct HeaderView: View {
-  @Binding var showSearchSheet: Bool
-  let location: Location
-  let response: OneCallResponse
-  
+  let location: String
+  let current: CurrentViewModel
+
   var body: some View {
     HStack(alignment: .center) {
       VStack(alignment: .leading) {
-        Text(location.name)
+        Text(location)
           .font(.largeTitle)
-        
-        Text(response.formattedDate())
+
+        Text(current.formattedDate())
           .foregroundColor(.secondary)
       }
       Spacer()

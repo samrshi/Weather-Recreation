@@ -9,15 +9,15 @@ import SwiftUI
 import WidgetKit
 
 struct WidgetView: View {
-  
+
   let name: String
   let isCurrent: Bool
   let weatherVM: WidgetViewModel
-  
+
   var body: some View {
     ZStack {
       BackgroundView(colors: weatherVM.current.getBackgroundColors())
-      
+
       VStack {
         HStack {
           VStack(alignment: .leading) {
@@ -30,14 +30,14 @@ struct WidgetView: View {
                   .font(.system(size: 10))
               }
             }
-            
+
             Text(weatherVM.current.temperature())
               .fontWeight(.light)
               .scaledFont(size: 37)
           }
-          
+
           Spacer()
-          
+
           VStack(alignment: .trailing, spacing: 2) {
             Image(systemName: weatherVM.current.icon())
               .renderingMode(.original)
@@ -51,9 +51,9 @@ struct WidgetView: View {
           }
           .font(.system(size: 12))
         }
-        
+
         Spacer()
-        
+
         HourlyView(hourly: weatherVM.hourly)
       }
       .padding(12)

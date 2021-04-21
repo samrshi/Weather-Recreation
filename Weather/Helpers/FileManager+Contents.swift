@@ -9,15 +9,16 @@ import Foundation
 
 extension FileManager {
   static func sharedContainerURL() -> URL {
-    return FileManager.default.containerURL(
+    FileManager.default.containerURL(
       forSecurityApplicationGroupIdentifier: "group.com.samrshi.Weather.contents"
     )!
   }
-  
-  static func readContents() -> [Location] {
-    var contents: [Location] = []
-    let archiveURL = FileManager.sharedContainerURL().appendingPathComponent("contents.json")
-    
+
+  static func readCitiesFromDisk() -> [Location]? {
+    var contents: [Location]?
+    let containerURL = FileManager.sharedContainerURL()
+    let archiveURL = containerURL.appendingPathComponent("contents.json")
+
     let decoder = JSONDecoder()
     if let codeData = try? Data(contentsOf: archiveURL) {
       do {
@@ -28,8 +29,8 @@ extension FileManager {
     }
     return contents
   }
-  
-  static func writeContents(locations: [Location]) {
+
+  static func writeCitiesToDisk(locations: [Location]) {
     let archiveURL = FileManager.sharedContainerURL()
       .appendingPathComponent("contents.json")
     let encoder = JSONEncoder()

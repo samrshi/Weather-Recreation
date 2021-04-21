@@ -14,7 +14,7 @@ extension Array where Element == Color {
       Color("nightBottom")
     ]
   }
-  
+
   static var day: [Color] {
     [
       Color("dayTop"),

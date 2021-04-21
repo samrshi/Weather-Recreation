@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct BackgroundView: View {
-    
+
   let colors: [Color]
-  
+
   var body: some View {
     LinearGradient(
       gradient: Gradient(colors: colors),

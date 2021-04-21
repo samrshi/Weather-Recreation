@@ -9,4 +9,5 @@ import Foundation
 
 extension TimeInterval {
   static var fifteenMinutes = TimeInterval(60*15)
+  static var twentyFourHours = TimeInterval(60*60*24)
 }

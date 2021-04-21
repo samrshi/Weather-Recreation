@@ -24,15 +24,15 @@ class WeatherDataManager: ObservableObject, LocationManagerDelegate {
   @Published var response: OneCallResponse
   @Published var loadingState: LoadingState
   @Published var location: Location
-  
+
   let locationType: LocationType
-  var locationManger: LocationManager? = nil
-  var timer: Timer? = nil
-  
+  var locationManger: LocationManager?
+  var timer: Timer?
+
   init(location: Location?) {
     loadingState = .empty
     response = OneCallResponse.example()
-    
+
     if let location = location {
       self.locationType = .specific
       self.location     = location
@@ -43,18 +43,23 @@ class WeatherDataManager: ObservableObject, LocationManagerDelegate {
       locationManger = LocationManager()
       locationManger?.delegate = self
     }
-    
-    timer = Timer.scheduledTimer(withTimeInterval: .fifteenMinutes, repeats: true) { [weak self] timer in
+
+    timer = Timer.scheduledTimer(withTimeInterval: .fifteenMinutes, repeats: true
+    ) { [weak self] _ in
       self?.getWeather()
     }
   }
-  
+
   func getWeather() {
     let lat       = location.lat
     let lon       = location.lon
-    let urlString = "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=imperial"
-    
-    Network.fetch(type: OneCallResponse.self, urlString: urlString, decodingStrategy: .convertFromSnakeCase) { result in
+    let urlString = getURL(lat: lat, lon: lon)
+
+    Network.fetch(
+      type: OneCallResponse.self,
+      urlString: urlString,
+      decodingStrategy: .convertFromSnakeCase
+    ) { result in
       switch result {
       case .success(let response):
         self.response = response
@@ -65,12 +70,33 @@ class WeatherDataManager: ObservableObject, LocationManagerDelegate {
       }
     }
   }
-  
-  /// From locationManager: only called if this manager is for current location
+
+  func getURL(lat: Double, lon: Double) -> String {
+    var result = "https://api.openweathermap.org/data/2.5/"
+    result += "onecall?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=imperial"
+    return result
+  }
+
+  /// From LocationManagerDelegate: only called if this manager is for current location
   /// - Parameter location: current location
   func locationsDidChange(location: Location) {
-//    print("new location")
     self.location = location
     getWeather()
+  }
+
+  func current() -> CurrentViewModel {
+    CurrentViewModel(response)
+  }
+
+  func hourly() -> HourlyViewModel {
+    HourlyViewModel(response)
+  }
+
+  func daily() -> DailyViewModel {
+    DailyViewModel(response)
+  }
+
+  func overview() -> OverviewViewModel {
+    OverviewViewModel(response)
   }
 }

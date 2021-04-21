@@ -13,10 +13,17 @@ struct DailyResponse: Codable {
   var sunset: Int
   var temp: Temperature
   var pop: Double
-  
+
   var weather: [Weather]
-  
+
   static func example() -> DailyResponse {
-    DailyResponse(dt: 1595268000, sunrise: 1595243663, sunset: 1595296278, temp: Temperature(day: 75, min: 70, max: 80), pop: 1, weather: [Weather.example()])
+    DailyResponse(
+      dt: 1595268000,
+      sunrise: 1595243663,
+      sunset: 1595296278,
+      temp: Temperature(day: 75, min: 70, max: 80),
+      pop: 1,
+      weather: [Weather.example()]
+    )
   }
 }

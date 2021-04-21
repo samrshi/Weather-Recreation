@@ -13,28 +13,26 @@ struct OneCallResponse: Codable {
   var lon: Double
   var timezone: String
   var timezoneOffset: Int
-  
+
   var current: CurrentResponse
   var hourly: [HourlyResponse]
   var daily: [DailyResponse]
-  
+
   static func example() -> OneCallResponse {
-    OneCallResponse(lat: 40.12, lon: -96.66, timezone: "America/Chicago", timezoneOffset: -18000, current: CurrentResponse.example(), hourly: [HourlyResponse](repeating: .example(), count: 10), daily: [DailyResponse](repeating: .example(), count: 7))
+    OneCallResponse(
+      lat: 40.12,
+      lon: -96.66,
+      timezone: "America/Chicago",
+      timezoneOffset: -18000,
+      current: CurrentResponse.example(),
+      hourly: [HourlyResponse](repeating: .example(), count: 10),
+      daily: [DailyResponse](repeating: .example(), count: 7)
+    )
   }
 }
 
 extension OneCallResponse: Equatable {
   static func == (lhs: OneCallResponse, rhs: OneCallResponse) -> Bool {
     lhs.current.dt == rhs.current.dt
-  }
-  
-  func formattedDate() -> String {
-    let date = Date(timeIntervalSince1970: TimeInterval(current.dt))
-    let sameDay = Calendar.current.isDate(date, equalTo: Date(), toGranularity: .day)
-    let formatter = DateFormatter()
-    formatter.timeZone = TimeZone(secondsFromGMT: timezoneOffset)
-    
-    formatter.dateFormat = "\(sameDay ? "'Today'" : "E,") h:mm a"
-    return formatter.string(from: date)
   }
 }
