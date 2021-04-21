@@ -248,8 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				BD027D8F25451F0E00DDBE88 /* IntentHandler.swift */,
-				BD027DA525451FB700DDBE88 /* WeatherIntentHandler.entitlements */,
-				BD027D9125451F0E00DDBE88 /* Info.plist */,
+				BDF604CF262FCE7300986E57 /* Support */,
 			);
 			path = WeatherIntentHandler;
 			sourceTree = "<group>";
@@ -287,7 +286,7 @@
 			path = "Helper Views";
 			sourceTree = "<group>";
 		};
-		BD6C1B4A25F9EA680099D9F2 /* Utils */ = {
+		BD6C1B4A25F9EA680099D9F2 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				BD027CD72544F43500DDBE88 /* Weather.entitlements */,
@@ -295,10 +294,10 @@
 				BDBECCDD2521A63600F176A3 /* Info.plist */,
 				BDBECCDA2521A63600F176A3 /* Preview Content */,
 			);
-			path = Utils;
+			path = Support;
 			sourceTree = "<group>";
 		};
-		BD70B8FE25FB688E001E1026 /* Utils */ = {
+		BD70B8FE25FB688E001E1026 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				BD027D0425451B3000DDBE88 /* DyanamicLocation.intentdefinition */,
@@ -307,7 +306,7 @@
 				BDAC54182524178A00BBD68D /* Info.plist */,
 				BD027CDA2544F44E00DDBE88 /* WeatherWidgetExtension.entitlements */,
 			);
-			path = Utils;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		BDA1DB772544B3EB009E8391 /* Managers */ = {
@@ -339,7 +338,7 @@
 				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
 				BDAC54242524180A00BBD68D /* WidgetView.swift */,
 				BD4D7D3425475245007AD320 /* WidgetViewModel.swift */,
-				BD70B8FE25FB688E001E1026 /* Utils */,
+				BD70B8FE25FB688E001E1026 /* Support */,
 			);
 			path = WeatherWidget;
 			sourceTree = "<group>";
@@ -374,7 +373,7 @@
 				BDC9A3FD2526EA8600811780 /* Views */,
 				BDC9A3FC2526EA7900811780 /* View Model */,
 				BDC9A3FF2526EAAA00811780 /* Helpers */,
-				BD6C1B4A25F9EA680099D9F2 /* Utils */,
+				BD6C1B4A25F9EA680099D9F2 /* Support */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -455,6 +454,15 @@
 				BDF604BE262FC74000986E57 /* PageVC+Coordinator.swift */,
 			);
 			path = Paging;
+			sourceTree = "<group>";
+		};
+		BDF604CF262FCE7300986E57 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				BD027DA525451FB700DDBE88 /* WeatherIntentHandler.entitlements */,
+				BD027D9125451F0E00DDBE88 /* Info.plist */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
