@@ -335,9 +335,9 @@
 			children = (
 				BDAC54132524178500BBD68D /* WeatherWidget.swift */,
 				BD6C1B5425F9EB250099D9F2 /* WidgetProvider.swift */,
-				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
-				BDAC54242524180A00BBD68D /* WidgetView.swift */,
-				BD4D7D3425475245007AD320 /* WidgetViewModel.swift */,
+				BDF604D5262FCED200986E57 /* Managers */,
+				BDF604D4262FCEC000986E57 /* View Model */,
+				BDF604D3262FCEB600986E57 /* View */,
 				BD70B8FE25FB688E001E1026 /* Support */,
 			);
 			path = WeatherWidget;
@@ -463,6 +463,30 @@
 				BD027D9125451F0E00DDBE88 /* Info.plist */,
 			);
 			path = Support;
+			sourceTree = "<group>";
+		};
+		BDF604D3262FCEB600986E57 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BDAC54242524180A00BBD68D /* WidgetView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BDF604D4262FCEC000986E57 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				BD4D7D3425475245007AD320 /* WidgetViewModel.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		BDF604D5262FCED200986E57 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BDAC543625241EC900BBD68D /* WidgetLocationManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
