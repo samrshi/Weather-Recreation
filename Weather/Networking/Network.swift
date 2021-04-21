@@ -21,19 +21,24 @@ public class Network {
     completion: @escaping (Result<T, NetworkError>
   ) -> Void) {
     guard let url = URL(string: urlString) else {
-      completion(.failure(.badURL(message: "Invalid URL")))
+      let error: NetworkError = .badURL(message: "Invalid URL")
+      completion(.failure(error))
       return
     }
-//    print(urlString)
 
     URLSession.shared.dataTask(with: url) { data, _, error in
       if let error = error {
         let message = "Error: \(error.localizedDescription)"
-        completion(.failure(.requestFailed(message: message)))
+        let error: NetworkError = .requestFailed(message: message)
+        completion(.failure(error))
         return
       }
 
-      guard let data = data else { return }
+      guard let data = data else {
+        let error: NetworkError = .unknown(message: "Unknown Error")
+        completion(.failure(error))
+        return
+      }
 
       DispatchQueue.main.async {
         do {
@@ -44,7 +49,8 @@ public class Network {
           completion(.success(result))
         } catch let error {
           let message = "Unknown Error: \(error.localizedDescription)"
-          completion(.failure(.unknown(message: message)))
+          let error: NetworkError = .unknown(message: message)
+          completion(.failure(error))
         }
       }
     }.resume()
