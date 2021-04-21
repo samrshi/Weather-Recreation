@@ -79,7 +79,8 @@ extension SearchManager: MKLocalSearchCompleterDelegate {
       let result = Location(
         name: name,
         lat: location.coordinate.latitude,
-        lon: location.coordinate.longitude
+        lon: location.coordinate.longitude,
+        verboseName: completionResult.title
       )
 
       completion(result)

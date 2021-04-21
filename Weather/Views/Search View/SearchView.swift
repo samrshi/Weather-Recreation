@@ -28,7 +28,7 @@ struct SearchView: View {
         Section(header: Text("My Cities")) {
           List {
             ForEach(userLocationsManager.locations, id: \.self) { city in
-              Text(city.name)
+              Text(city.verboseName ?? city.name)
             }
             .onDelete(perform: deleteCity)
             .onMove(perform: reorderCity)

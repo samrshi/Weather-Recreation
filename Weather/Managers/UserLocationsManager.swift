@@ -32,4 +32,13 @@ struct Location: Codable, Hashable {
 
   let lat: Double
   let lon: Double
+
+  let verboseName: String?
+
+  init(name: String, lat: Double, lon: Double, verboseName: String? = nil) {
+    self.name = name
+    self.lat  = lat
+    self.lon  = lon
+    self.verboseName = verboseName
+  }
 }

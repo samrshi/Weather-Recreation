@@ -55,7 +55,7 @@ struct PageVC: UIViewControllerRepresentable {
     context.coordinator.controllers = pages
 
     var newIndex = currentPage
-    if currentPage == pages.count {
+    if currentPage >= pages.count {
       newIndex = 0
     }
 

@@ -14,7 +14,9 @@ struct WeatherApp: App {
   @State private var showSearchSheet = false
 
   var locations: [WeatherVC] {
-    [WeatherVC(location: nil)] + userLocationsManager.locations.map { WeatherVC(location: $0) }
+    [WeatherVC(location: nil)] + userLocationsManager.locations.map {
+      WeatherVC(location: $0)
+    }
   }
 
   var body: some Scene {

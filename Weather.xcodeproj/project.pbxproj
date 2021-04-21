@@ -268,12 +268,12 @@
 			path = "Weather Views";
 			sourceTree = "<group>";
 		};
-		BD4D7D4A2547DDE7007AD320 /* Search Views */ = {
+		BD4D7D4A2547DDE7007AD320 /* Search View */ = {
 			isa = PBXGroup;
 			children = (
 				BDAC53D62523A1ED00BBD68D /* SearchView.swift */,
 			);
-			path = "Search Views";
+			path = "Search View";
 			sourceTree = "<group>";
 		};
 		BD4D7D4E2547DDF5007AD320 /* Helper Views */ = {
@@ -402,7 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				BD4D7D492547DDC6007AD320 /* Weather Views */,
-				BD4D7D4A2547DDE7007AD320 /* Search Views */,
+				BD4D7D4A2547DDE7007AD320 /* Search View */,
 				BDF604BD262FC72500986E57 /* Paging */,
 				BD4D7D4E2547DDF5007AD320 /* Helper Views */,
 			);
