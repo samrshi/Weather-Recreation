@@ -783,10 +783,10 @@
 		BD027D9625451F0E00DDBE88 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = WeatherIntentHandler/WeatherIntentHandler.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherIntentHandler/Support/WeatherIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherIntentHandler/Info.plist;
+				INFOPLIST_FILE = WeatherIntentHandler/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -803,10 +803,10 @@
 		BD027D9725451F0E00DDBE88 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = WeatherIntentHandler/WeatherIntentHandler.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherIntentHandler/Support/WeatherIntentHandler.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherIntentHandler/Info.plist;
+				INFOPLIST_FILE = WeatherIntentHandler/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -825,10 +825,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Utils/WeatherWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Support/WeatherWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherWidget/Utils/Info.plist;
+				INFOPLIST_FILE = WeatherWidget/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -847,10 +847,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Utils/WeatherWidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = WeatherWidget/Support/WeatherWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
-				INFOPLIST_FILE = WeatherWidget/Utils/Info.plist;
+				INFOPLIST_FILE = WeatherWidget/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -986,12 +986,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Weather/Utils/Weather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Weather/Support/Weather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Weather/Utils/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Weather/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Weather/Utils/Info.plist;
+				INFOPLIST_FILE = Weather/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1010,12 +1010,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Weather/Utils/Weather.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Weather/Support/Weather.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"Weather/Utils/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Weather/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = Q9PPH2T3L2;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Weather/Utils/Info.plist;
+				INFOPLIST_FILE = Weather/Support/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
