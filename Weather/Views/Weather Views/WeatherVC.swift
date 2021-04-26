@@ -48,7 +48,8 @@ class WeatherVC: UIViewController {
   }
 
   func configureWeatherView() {
-    let weather = UIHostingController(rootView: WeatherView(weather: manager, id: id))
+    let rootView = WeatherView(weather: manager, id: id)
+    let weather = UIHostingController(rootView: rootView)
     weatherView = weather
     addChild(weather)
     view.addSubview(weather.view)
@@ -91,6 +92,7 @@ class WeatherVC: UIViewController {
 extension UIView {
   func pin(to superView: UIView) {
     translatesAutoresizingMaskIntoConstraints = false
+    
     NSLayoutConstraint.activate([
       topAnchor.constraint(equalTo: superView.topAnchor),
       leadingAnchor.constraint(equalTo: superView.leadingAnchor),

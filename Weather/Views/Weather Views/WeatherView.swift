@@ -14,7 +14,8 @@ struct WeatherView: View {
 
   var body: some View {
     VStack {
-      HeaderView(location: weather.location.name, current: weather.current())
+      HeaderView(location: weather.location.name,
+                 current: weather.current())
 
       ScrollView(.vertical, showsIndicators: false) {
         CurrentView(current: weather.current())
