@@ -13,16 +13,16 @@ protocol LocationManagerDelegate: AnyObject {
 }
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-  private let locationManager   = CLLocationManager()
+  private let locationManager = CLLocationManager()
 
-  let minDistance: Double       = 1000
+  let minDistance: Double = 1000
   var oldLocation: CLLocation?
   weak var delegate: LocationManagerDelegate?
 
   override init() {
     super.init()
 
-    self.locationManager.delegate        = self
+    self.locationManager.delegate = self
     self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
 
     self.locationManager.requestWhenInUseAuthorization()
